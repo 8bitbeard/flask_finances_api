@@ -8,7 +8,7 @@ A simple finances API made with Flask and SQLAlchemy
 - SQLalchemy
 
 # Installing the Development Environment
-- Install python3 on your machine
+- Install python3 on your machine. You can download it on the following link: https://www.python.org/downloads/
 - install virtualenv package with pip:
 ```bash
 $ pip install virtualenv
