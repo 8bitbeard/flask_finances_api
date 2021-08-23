@@ -31,7 +31,7 @@ $ source /venv/bin/activate
 ```
 - Install all the python packages from the requirements.txt file
 ```bash
-$ pip install -r requirements.txt
+$(venv) pip install -r requirements.txt
 ```
 
 # Configuring the envionment variables
@@ -48,15 +48,15 @@ This project needs a Relational Database, like PostgreSQL or MySQL. You can choo
 
 After that, run the following commands:
 ```bash
-$ flask db migrate
+$(venv) flask db migrate
 
-$ flask db upgrade
+$(venv) flask db upgrade
 ```
 
 # Starting the Local Server
 - To start the local server, run the following command:
 ```bash
-$ flask run
+$(venv) flask run
 ```
 
 This will start the server on the port 5000.
