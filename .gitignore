@@ -25,3 +25,7 @@ htmlcov/
 .coverage
 .coverage.*
 *,cover
+
+src/database/migrations/versions/*.py
+!env.py
+
