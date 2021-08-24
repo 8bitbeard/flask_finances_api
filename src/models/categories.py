@@ -1,6 +1,12 @@
+import enum
 import uuid
 
 from src.database import db
+
+
+class CategoryType(enum.Enum):
+    ENTRADA = "E"
+    SAIDA = "S"
 
 
 class Category(db.Model):

@@ -17,3 +17,9 @@ class CategoryNameExists(APIError):
     status_code = 400
     code = "ALREADY_EXISTS"
     details = "This category name already exists!"
+
+
+class CategoryInvalidType(APIError):
+    status_code = 400
+    code = "INVALID_TYPE"
+    details = "The informed category type is not valid!"

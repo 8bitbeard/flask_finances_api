@@ -1,8 +1,8 @@
 from src.database import db
 
-from src.models.categories import Category
+from src.models.categories import CategoryType, Category
 
-from src.exceptions.categories_exception import CategoryNotFound, CategoryNameExists
+from src.exceptions.categories_exception import CategoryNotFound, CategoryNameExists, CategoryInvalidType
 
 
 class CategoriesService:
@@ -11,9 +11,12 @@ class CategoriesService:
         name = data['name']
         category_type = data['type']
 
-        is_present = Category.query.filter_by(name=name).first()
+        is_category_valid = any(category_type == item.value[0] for item in CategoryType)
 
-        print (is_present)
+        if not is_category_valid:
+            raise CategoryInvalidType('Informed category is not valid!')
+
+        is_present = Category.query.filter_by(name=name).first()
 
         if is_present:
             raise CategoryNameExists('There is already a category with the given name!')

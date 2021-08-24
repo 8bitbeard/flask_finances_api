@@ -1,3 +1,5 @@
+import enum
+
 from marshmallow import fields
 
 from src.database import ma
