@@ -13,6 +13,8 @@ class TransactionSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Transaction
         load_instance = True
+        fields = ("id", "value", "created_at", "category")
+        ordered = True
 
     category = ma.Nested(CategorySchema)
     value = fields.Function(lambda obj: locale.currency(obj.value))

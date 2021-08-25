@@ -12,6 +12,8 @@ class AccountSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Account
         load_instance = True
+        fields = ("id", "user_id", "income", "expense", "balance")
+        ordered = True
 
     balance = fields.Function(lambda obj: locale.currency(obj.balance))
     income = fields.Function(lambda obj: locale.currency(obj.income))
