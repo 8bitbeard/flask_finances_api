@@ -1,21 +1,24 @@
 import validators
 
+from werkzeug.security import generate_password_hash
+
 from src.database import db
 
 from src.models.users import User
 
 from src.exceptions.users_exception import UserEmailAlreadyExists, UserEmailInvalid, UserMissingParameter,\
-                                          UserNameInvalid
+                                          UserNameInvalid, UserPasswordTooShort
 
 
 class UsersService:
 
     def create(data):
-        if 'email' not in data or 'name' not in data:
-            raise UserMissingParameter('Email and Username parameters must be provided!')
+        if 'email' not in data or 'name' not in data or 'password' not in data:
+            raise UserMissingParameter('Email, Username and Password parameters must be provided!')
 
         name = data['name']
         email = data['email']
+        password = data['password']
 
         if len(name) < 3 or not name.isalnum() or ' ' in name:
             raise UserNameInvalid(
@@ -28,7 +31,12 @@ class UsersService:
         if User.query.filter_by(email=email).first() is not None:
             raise UserEmailAlreadyExists('The informed Email is already taken!')
 
-        user = User(name=name, email=email)
+        if len(password) < 6:
+            raise UserPasswordTooShort('The password must contain 6 or more characters!')
+
+        pwd_hash = generate_password_hash(password)
+
+        user = User(name=name, email=email, password=pwd_hash)
 
         db.session.add(user)
         db.session.commit()

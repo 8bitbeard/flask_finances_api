@@ -7,6 +7,7 @@ from flask_jwt_extended import JWTManager
 
 from src.database import db, migrate, ma
 
+from src.controllers.authentication_controller import auth
 from src.controllers.users_controller import users
 from src.controllers.accounts_controller import accounts
 from src.controllers.transactions_controller import transactions
@@ -37,6 +38,7 @@ def create_app(config_name='development'):
 
     JWTManager(app)
 
+    app.register_blueprint(auth)
     app.register_blueprint(users)
     app.register_blueprint(accounts)
     app.register_blueprint(transactions)

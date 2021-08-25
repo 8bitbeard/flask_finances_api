@@ -4,7 +4,7 @@ from src.exceptions.base_exception import APIError
 class UserMissingParameter(APIError):
     status_code = 400
     code = "MISSING_PARAMETER"
-    details = "Email and Username parameters mus be provided!"
+    details = "Missing mandatory parameters!"
 
 
 class UserNameInvalid(APIError):
@@ -29,3 +29,9 @@ class UserNotFound(APIError):
     status_code = 404
     code = "NOT_FOUND"
     details = "User not found!"
+
+
+class UserPasswordTooShort(APIError):
+    status_code = 400
+    code = "INVALID_PASSWORD"
+    details = "Provided password is invalid!"
