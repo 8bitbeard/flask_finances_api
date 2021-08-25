@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from src.services.accounts_service import AccountsService
 
@@ -12,14 +13,16 @@ accounts = Blueprint("accounts", __name__, url_prefix="/api/v1/accounts")
 
 
 @accounts.post('/')
+@jwt_required()
 def create():
     data = request.json
+    user_id = get_jwt_identity()
 
     account_schema = AccountSchema()
 
-    found_account = AccountsService.create(data)
+    created_account = AccountsService.create(user_id, data)
 
-    return account_schema.jsonify(found_account), http_status_codes.HTTP_201_CREATED
+    return account_schema.jsonify(created_account), http_status_codes.HTTP_201_CREATED
 
 
 @accounts.get('/')

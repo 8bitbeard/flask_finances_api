@@ -7,6 +7,7 @@ class Account(db.Model):
     __tablename__='accounts'
 
     id = db.Column(db.String(), primary_key=True)
+    name = db.Column(db.String(80), nullable=False)
     user_id = db.Column(db.String(), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref='user', foreign_keys=[user_id])
     balance = db.Column(db.Numeric(10, 2), default=0, nullable=False)
