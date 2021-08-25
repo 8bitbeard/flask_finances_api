@@ -11,7 +11,7 @@ class CategoriesService:
         name = data['name']
         category_type = data['type']
 
-        is_category_valid = any(category_type == item.value[0] for item in CategoryType)
+        is_category_valid = any(category_type == item.name for item in CategoryType)
 
         if not is_category_valid:
             raise CategoryInvalidType('Informed category is not valid!')

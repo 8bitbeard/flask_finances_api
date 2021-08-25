@@ -1,5 +1,3 @@
-import enum
-
 from marshmallow import fields
 
 from src.database import ma
@@ -12,12 +10,4 @@ class CategorySchema(ma.SQLAlchemyAutoSchema):
         model = Category
         load_instance = True
 
-    type = fields.Method("type_dict")
-
-    def type_dict(self, obj):
-        types = {
-            'E': 'Entrada',
-            'S': 'Saída'
-        }
-
-        return types[obj.type]
+    type = fields.Function(lambda obj: obj.type.value)
