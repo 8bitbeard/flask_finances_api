@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from flask_jwt_extended import jwt_required
 
 from src.services.categories_service import CategoriesService
 
@@ -11,6 +12,7 @@ categories = Blueprint("categories", __name__, url_prefix="/api/v1/categories")
 
 
 @categories.post('/')
+@jwt_required()
 def create():
     data = request.json
 
@@ -22,6 +24,7 @@ def create():
 
 
 @categories.get('/')
+@jwt_required()
 def index():
 
     category_schema = CategorySchema(many=True)

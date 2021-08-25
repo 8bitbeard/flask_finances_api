@@ -14,9 +14,7 @@ from src.exceptions.transaction_exception import TransactionValueNegativeOrZero
 
 
 class TransactionsService:
-    def income(account_id, data):
-
-        account = AccountsService.retrieve(account_id=account_id)
+    def income(user_id, account_id, data):
 
         value = data['value']
         category_name = data['category']
@@ -29,7 +27,7 @@ class TransactionsService:
         if not category:
             raise CategoryNotFound('Category not found!')
 
-        account = AccountsService.retrieve(account_id)
+        account = AccountsService.retrieve(user_id=user_id, account_id=account_id)
 
         if not account:
             raise AccountNotFound('Account not found!')
@@ -54,9 +52,7 @@ class TransactionsService:
 
 
 
-    def expense(account_id, data):
-
-        account = AccountsService.retrieve(account_id=account_id)
+    def expense(user_id, account_id, data):
 
         value = data['value']
         category_name = data['category']
@@ -69,7 +65,7 @@ class TransactionsService:
         if not category:
             raise CategoryNotFound('Category not found!')
 
-        account = AccountsService.retrieve(account_id)
+        account = AccountsService.retrieve(account_id=account_id, user_id=user_id)
 
         if not account:
             raise AccountNotFound('Account not found!')
@@ -91,9 +87,9 @@ class TransactionsService:
             return transaction
 
 
-    def extract(account_id):
+    def extract(user_id, account_id):
 
-        account = AccountsService.retrieve(account_id)
+        account = AccountsService.retrieve(account_id=account_id, user_id=user_id)
 
         if not account:
             raise AccountNotFound('Account not found!')

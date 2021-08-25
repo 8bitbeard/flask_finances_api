@@ -26,18 +26,24 @@ def create():
 
 
 @accounts.get('/')
+@jwt_required()
 def index():
+    user_id = get_jwt_identity()
+
     account_schema = AccountSchema(many=True)
 
-    found_accounts = AccountsService.index()
+    found_accounts = AccountsService.index(user_id)
 
     return account_schema.jsonify(found_accounts), http_status_codes.HTTP_200_OK
 
 
 @accounts.get('/<account_id>/balance')
+@jwt_required()
 def balance(account_id):
+    user_id = get_jwt_identity()
+
     balance_schema = BalanceSchema()
 
-    found_account = AccountsService.retrieve(account_id)
+    found_account = AccountsService.retrieve(user_id, account_id)
 
     return balance_schema.jsonify(found_account), http_status_codes.HTTP_200_OK

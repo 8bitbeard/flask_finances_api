@@ -36,17 +36,16 @@ class AccountsService:
 
         return account
 
-    def index():
-        accounts = Account.query.all()
+    def index(user_id):
+        accounts = Account.query.filter_by(user_id=user_id)
 
         return accounts
 
-    def retrieve(account_id):
+    def retrieve(user_id, account_id):
 
-        account = Account.query.filter_by(id=account_id).first()
+        account = Account.query.filter_by(id=account_id, user_id=user_id).first()
 
         if account:
             return account
-
         else:
             raise AccountNotFound('The given account was not found!')
