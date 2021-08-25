@@ -28,4 +28,3 @@ htmlcov/
 
 src/database/migrations/versions/*.py
 !env.py
-
