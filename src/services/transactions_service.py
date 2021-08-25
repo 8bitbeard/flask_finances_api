@@ -3,6 +3,7 @@ import decimal
 from src.database import db
 
 from src.models.transactions import Transaction
+from src.models.categories import CategoryType
 
 from src.services.categories_service import CategoriesService
 from src.services.accounts_service import AccountsService
@@ -33,7 +34,9 @@ class TransactionsService:
         if not account:
             raise AccountNotFound('Account not found!')
 
-        if category.type != 'E':
+        print(category.type)
+
+        if category.type != CategoryType.E:
             raise IncorrectCategory('Category type is S, but must be E!')
 
         else:
@@ -71,7 +74,7 @@ class TransactionsService:
         if not account:
             raise AccountNotFound('Account not found!')
 
-        if category.type != 'S':
+        if category.type != CategoryType.S:
             raise IncorrectCategory('Category type is E, but must be S!')
 
         else:
