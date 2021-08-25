@@ -13,8 +13,10 @@ class Category(db.Model):
     __tablename__='categories'
 
     id = db.Column(db.String(), primary_key=True)
-    name = db.Column(db.String(80), unique=True, nullable=False)
+    name = db.Column(db.String(80), nullable=False)
     type = db.Column(db.Enum(CategoryType))
+    user_id = db.Column(db.String(), db.ForeignKey('users.id'), nullable=False)
+    user = db.relationship('User', backref='category_owner', foreign_keys=[user_id])
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

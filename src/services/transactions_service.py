@@ -22,7 +22,7 @@ class TransactionsService:
         if value <= 0:
             raise TransactionValueNegativeOrZero('Transaction values must be bigger than 0!')
 
-        category = CategoriesService.retrieve(category_name=category_name)
+        category = CategoriesService.retrieve(category_name=category_name, user_id=user_id)
 
         if not category:
             raise CategoryNotFound('Category not found!')
@@ -60,7 +60,7 @@ class TransactionsService:
         if value <= 0:
             raise TransactionValueNegativeOrZero('Transaction values must be bigger than 0!')
 
-        category = CategoriesService.retrieve(category_name=category_name)
+        category = CategoriesService.retrieve(category_name=category_name, user_id=user_id)
 
         if not category:
             raise CategoryNotFound('Category not found!')
