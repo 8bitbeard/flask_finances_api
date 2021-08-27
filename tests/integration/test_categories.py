@@ -93,7 +93,7 @@ def test_error_create_new_categorie_with_inexistent_user(test_client, init_datab
     assert response.json['message'] == 'User not found!'
     assert response.json['details'] == ['User not found!']
 
-def test_error_create_category_with_existent_name(test_client, init_database, insert_user_db, insert_category_db):
+def test_error_create_category_with_existent_name(test_client, init_database, insert_user_db, insert_income_category_db):
     login_url = '/api/v1/auth/login'
     login_data = {
         'email': insert_user_db.email,
@@ -134,7 +134,7 @@ def test_list_user_without_categories(test_client, init_database, insert_user_db
     assert isinstance(response.json, list)
     assert len(response.json) == 0
 
-def test_list_user_with_categories(test_client, init_database, insert_user_db, insert_category_db):
+def test_list_user_with_categories(test_client, init_database, insert_user_db, insert_income_category_db):
     login_url = '/api/v1/auth/login'
     login_data = {
         'email': insert_user_db.email,

@@ -59,13 +59,40 @@ def insert_account_db(insert_user_db):
     return account
 
 @pytest.fixture
-def insert_category_db(insert_user_db):
+def insert_income_category_db(insert_user_db):
     category = Category(name='UnitTest', type='E', user_id=insert_user_db.id)
 
     db.session.add(category)
     db.session.commit()
 
     return category
+
+@pytest.fixture
+def insert_expense_category_db(insert_user_db):
+    category = Category(name='UnitTest', type='S', user_id=insert_user_db.id)
+
+    db.session.add(category)
+    db.session.commit()
+
+    return category
+
+@pytest.fixture
+def insert_income_transaction_db(insert_user_db, insert_account_db, insert_income_category_db):
+    transaction = Transaction(account_id = insert_account_db.id, value=10.25, category_id=insert_income_category_db.id)
+
+    db.session.add(transaction)
+    db.session.commit()
+
+    return transaction
+
+@pytest.fixture
+def insert_expense_transaction_db(insert_user_db, insert_account_db, insert_expense_category_db):
+    transaction = Transaction(account_id = insert_account_db.id, value=10.25, category_id=insert_expense_category_db.id)
+
+    db.session.add(transaction)
+    db.session.commit()
+
+    return transaction
 
 @pytest.fixture
 def new_user():

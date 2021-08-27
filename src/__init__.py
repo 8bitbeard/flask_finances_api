@@ -19,6 +19,8 @@ from src.config import config_by_name
 
 from src.exceptions.categories_exception import APIError
 
+from werkzeug.exceptions import InternalServerError
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 MIGRATION_DIR = os.path.join(basedir, 'database', 'migrations')
@@ -69,5 +71,9 @@ def create_app(config_name='development'):
         if len(err.args) > 0:
             response["message"] = err.args[0]
         return jsonify(response), err.status_code
+
+    @app.get('/error_500')
+    def error_500():
+        raise InternalServerError('This is a custom exception')
 
     return app
