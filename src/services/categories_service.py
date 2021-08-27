@@ -40,12 +40,3 @@ class CategoriesService:
         categories = Category.query.filter_by(user_id=user_id)
 
         return categories
-
-    def retrieve(category_name):
-
-        category = Category.query.filter_by(name=category_name).first()
-
-        if category:
-            return category
-        else:
-            raise CategoryNotFound('Category not Found!')

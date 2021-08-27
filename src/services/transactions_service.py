@@ -3,9 +3,8 @@ import decimal
 from src.database import db
 
 from src.models.transactions import Transaction
-from src.models.categories import CategoryType
+from src.models.categories import Category, CategoryType
 
-from src.services.categories_service import CategoriesService
 from src.services.accounts_service import AccountsService
 
 from src.exceptions.categories_exception import CategoryNotFound, IncorrectCategory
@@ -22,7 +21,7 @@ class TransactionsService:
         if value <= 0:
             raise TransactionValueNegativeOrZero('Transaction values must be bigger than 0!')
 
-        category = CategoriesService.retrieve(category_name=category_name, user_id=user_id)
+        category = Category.query.filter_by(name=category_name, user_id=user_id).first()
 
         if not category:
             raise CategoryNotFound('Category not found!')
@@ -60,7 +59,7 @@ class TransactionsService:
         if value <= 0:
             raise TransactionValueNegativeOrZero('Transaction values must be bigger than 0!')
 
-        category = CategoriesService.retrieve(category_name=category_name, user_id=user_id)
+        category = Category.query.filter_by(name=category_name, user_id=user_id).first()
 
         if not category:
             raise CategoryNotFound('Category not found!')

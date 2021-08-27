@@ -59,6 +59,15 @@ def insert_account_db(insert_user_db):
     return account
 
 @pytest.fixture
+def insert_category_db(insert_user_db):
+    category = Category(name='UnitTest', type='E', user_id=insert_user_db.id)
+
+    db.session.add(category)
+    db.session.commit()
+
+    return category
+
+@pytest.fixture
 def new_user():
     user = User(name='Unittest', email='unit_test@example.com', password='password')
     return user
