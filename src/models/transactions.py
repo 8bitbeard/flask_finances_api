@@ -14,13 +14,16 @@ class Transaction(db.Model):
     value = db.Column(db.Numeric(10, 2), nullable=True)
     category_id = db.Column(db.String(), db.ForeignKey('categories.id'), nullable=False)
     category = db.relationship('Category', backref='category', foreign_keys=[category_id])
-    created_at = db.Column(db.DateTime(), default=datetime.now())
+    created_at = db.Column(db.DateTime())
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
         if not self.id:
             self.id = str(uuid.uuid4())
+
+        if not self.created_at:
+            self.created_at = datetime.now()
 
     def __repr__(self):
         return 'Transaction>>> {}'.format(self.id)

@@ -14,6 +14,8 @@ users = Blueprint("users", __name__, url_prefix="/api/v1/users")
 def create():
     data = request.json
 
+    print(data)
+
     user_schema = UserSchema()
 
     found_user = UsersService.create(data)

@@ -20,7 +20,7 @@ class UsersService:
         email = data['email']
         password = data['password']
 
-        if len(name) < 3 or not name.isalnum() or ' ' in name:
+        if len(name) < 3 or not name.isalnum():
             raise UserNameInvalid(
                 'The informed name must be bigger than 3 chars, should be alphanumeric, also no spaces!'
             )

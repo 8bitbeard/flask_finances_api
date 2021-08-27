@@ -11,15 +11,16 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///' + os.path.join(basedir, 'flask_finances_api_development.db'))
     JWT_SECRET_TOKEN=os.environ.get('JWT_SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class TestingConfig(Config):
-    DEBUG = True
+    DEBUG = False
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'flask_bookmarks_test.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'flask_finances_api_test.db')
     JWT_SECRET_TOKEN=os.environ.get('JWT_SECRET_KEY')
     PRESERVE_CONTEXT_ON_EXCEPTION = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -27,7 +28,8 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL'].replace("postgres://", "postgresql://", 1)
+    # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL'].replace("postgres://", "postgresql://", 1)
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', '').replace("postgres://", "postgresql://", 1)
 
 
 config_by_name = {
