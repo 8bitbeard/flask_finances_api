@@ -31,9 +31,12 @@ def test_client():
 
 @pytest.fixture
 def init_database():
+
     db.create_all()
 
     yield db
+
+    db.session.close()
 
     db.drop_all()
 
