@@ -16,7 +16,7 @@ class AccountsService:
         name = data['name']
         balance = data['balance']
 
-        if 3 > len(name) > 80:
+        if 3 > len(name) or len(name) > 80:
             raise AccountInvalidName(
                 'The account name must be bigger than 3 and less than 80 chars'
             )

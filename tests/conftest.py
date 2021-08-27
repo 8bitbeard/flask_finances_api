@@ -44,12 +44,19 @@ def init_database():
 def insert_user_db():
     user = User(name='Mock User', email='mock_user@example.com', password=generate_password_hash('password'))
 
-    print (user.password)
-
     db.session.add(user)
     db.session.commit()
 
     return user
+
+@pytest.fixture
+def insert_account_db(insert_user_db):
+    account = Account(name='Unit test', user_id=insert_user_db.id, balance=10.25)
+
+    db.session.add(account)
+    db.session.commit()
+
+    return account
 
 @pytest.fixture
 def new_user():
