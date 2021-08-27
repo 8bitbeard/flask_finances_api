@@ -1,3 +1,8 @@
+"""
+Users routes tests
+"""
+
+
 def test_register_new_user(test_client, init_database):
     """
     Test the creation of a new user
@@ -10,11 +15,14 @@ def test_register_new_user(test_client, init_database):
     }
     response = test_client.post(url, json=data)
     assert response.status_code == 201
-    assert response.json['id'] != None
+    assert response.json['id'] is not None
     assert response.json['name'] == data['name']
     assert response.json['email'] == data['email']
 
 def test_error_register_user_without_name(test_client, init_database):
+    """
+    Test the error when trying to register a user without passing the name variable
+    """
     url = '/api/v1/users/'
     data = {
         'email': 'func_teste@example.com',
@@ -27,6 +35,9 @@ def test_error_register_user_without_name(test_client, init_database):
     assert response.json['details'] == ['Missing mandatory parameters!']
 
 def test_error_register_user_without_email(test_client, init_database):
+    """
+    Test the error when trying to register a user without passing the email variable
+    """
     url = '/api/v1/users/'
     data = {
         'name': 'FuncTest',
@@ -38,7 +49,10 @@ def test_error_register_user_without_email(test_client, init_database):
     assert response.json['message'] == 'Email, Username and Password parameters must be provided!'
     assert response.json['details'] == ['Missing mandatory parameters!']
 
-def test_error_register_user_without_email(test_client, init_database):
+def test_error_register_user_without_password(test_client, init_database):
+    """
+    Test the error when trying to register a user without passing the password variable
+    """
     url = '/api/v1/users/'
     data = {
         'name': 'FuncTest',
@@ -51,6 +65,9 @@ def test_error_register_user_without_email(test_client, init_database):
     assert response.json['details'] == ['Missing mandatory parameters!']
 
 def test_error_register_user_with_invalid_name(test_client, init_database):
+    """
+    Test the error when trying to register a user with invalid name
+    """
     url = '/api/v1/users/'
     data = {
         'name': 'Func Test@',
@@ -64,6 +81,9 @@ def test_error_register_user_with_invalid_name(test_client, init_database):
     assert response.json['details'] == ['Provided name is invalid!']
 
 def test_error_register_user_with_invalid_email(test_client, init_database):
+    """
+    Test the error when trying to register a user with invalid email
+    """
     url = '/api/v1/users/'
     data = {
         'name': 'FuncTest',
@@ -77,6 +97,9 @@ def test_error_register_user_with_invalid_email(test_client, init_database):
     assert response.json['details'] == ['Provided email is invalid!']
 
 def test_error_register_user_with_taken_email(test_client, init_database, insert_user_db):
+    """
+    Test the error when trying to register a user with an already used email
+    """
     url = '/api/v1/users/'
     data = {
         'name': 'FuncTest',
@@ -90,6 +113,9 @@ def test_error_register_user_with_taken_email(test_client, init_database, insert
     assert response.json['details'] == ['This email is already taken!']
 
 def test_error_register_user_with_short_password(test_client, init_database):
+    """
+    Test the error when trying to register a user with a short password
+    """
     url = '/api/v1/users/'
     data = {
         'name': 'FuncTest',
@@ -103,11 +129,14 @@ def test_error_register_user_with_short_password(test_client, init_database):
     assert response.json['details'] == ['Provided password is invalid!']
 
 def test_list_users(test_client, init_database, insert_user_db):
+    """
+    Test the list users route
+    """
     url = '/api/v1/users/'
     response = test_client.get(url)
     assert response.status_code == 200
     assert isinstance(response.json, list)
     assert len(response.json) == 1
-    assert response.json[0]['id'] != None
+    assert response.json[0]['id'] is not None
     assert response.json[0]['name'] == 'Mock User'
     assert response.json[0]['email'] == 'mock_user@example.com'
