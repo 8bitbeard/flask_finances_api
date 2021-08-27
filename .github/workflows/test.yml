@@ -41,7 +41,9 @@ jobs:
       - name: Test with unittest
         env:
           FLASK_APP: src
-          LC_ALL: C
           DATABASE_URL_TST: postgres://flask_github_actions:postgres@postgres:5432/flask_github_actions_test
         run: |
+          export LC_ALL="en_US.UTF-8"
+          export LC_CTYPE="en_US.UTF-8"
+          sudo dpkg-reconfigure locales
           pytest -v --cov=src
