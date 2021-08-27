@@ -1,0 +1,46 @@
+name: Python application
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+    name: App Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_DB: flask_github_actions_test
+          POSTGRES_USER: flask_github_actions
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt;
+
+      - name: Test with unittest
+        env:
+          FLASK_APP: src
+          DATABASE_URL_TST: postgres://flask_github_actions:postgres@postgres:5432/flask_github_actions_test
+        run: |
+          pytest -v --cov=src
