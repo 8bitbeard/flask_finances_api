@@ -48,9 +48,6 @@ jobs:
       - name: Test with pytest
         env:
           FLASK_APP: src
-          DATABASE_URL_TST: postgres://flask_github_actions:postgres@postgres:5432/flask_github_actions_test
+          DATABASE_URL_TST: postgresql://flask_github_actions:postgres@postgres:5432/flask_github_actions_test
         run: |
-          export LC_ALL="pt_BR.UTF-8"
-          export LC_CTYPE="pt_BR.UTF-8"
-          sudo dpkg-reconfigure locales
           pytest -v --cov=src
