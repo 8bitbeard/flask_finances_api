@@ -28,9 +28,9 @@ jobs:
 
     steps:
       - name: Set pt_BR Locale
-      run: |
-          sudo locale-gen pt_BR.UTF-8
-          sudo update-locale LANG=pt_BR.UTF-8
+        run: |
+            sudo locale-gen pt_BR.UTF-8
+            sudo update-locale LANG=pt_BR.UTF-8
 
       - name: Checkout code
         uses: actions/checkout@v2
