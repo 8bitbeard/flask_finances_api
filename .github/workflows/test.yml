@@ -45,9 +45,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt;
 
-      - name: Test with pytest
+      - name: Unit Tests
         env:
           FLASK_APP: src
           DATABASE_URL_TST: postgresql://flask_github_actions:postgres@localhost:5432/flask_github_actions_test
         run: |
-          pytest -v --cov=src
+          pytest tests/unit/
+
+      - name: Integration Tests
+        env:
+          FLASK_APP: src
+          DATABASE_URL_TST: postgresql://flask_github_actions:postgres@localhost:5432/flask_github_actions_test
+        run: |
+          pytest tests/integration/
