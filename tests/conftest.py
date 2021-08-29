@@ -1,4 +1,6 @@
 import pytest
+from uuid import uuid4
+from datetime import datetime
 
 from src import create_app
 from src.database import db
@@ -9,6 +11,9 @@ from src.models.users import User
 from src.models.accounts import Account
 from src.models.categories import Category
 from src.models.transactions import Transaction
+
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 
 @pytest.fixture
@@ -119,3 +124,20 @@ def new_transaction(new_account):
     category = Category(name='UnitTest', type='E', user_id=new_account.user_id)
     transaction = Transaction(account_id=new_account.id, value=11.11, category_id=category.id)
     return transaction
+
+@pytest.fixture
+def mock_user_object():
+    user = User(
+        id=uuid4(),
+        name="Mock User",
+        email="mock_user@example.com",
+        password="password",
+        created_at = datetime.now(),
+        updated_at = None
+    )
+    return user
+
+@pytest.fixture
+def mock_get_sqlalchemy(mocker):
+    mock = mocker.patch("flask_sqlalchemy._QueryProperty.__get__").return_value = mocker.Mock()
+    return mock
