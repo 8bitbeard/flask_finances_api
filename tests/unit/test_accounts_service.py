@@ -20,12 +20,12 @@ def test_create_error_account_balance_invalid(mock_get_sqlalchemy):
     with pytest.raises(BalanceInvalid):
         AccountsService.create('id', {'name': 'Account', 'balance': 'invalid'})
 
-def test_create_accounts_service_method(mock_get_sqlalchemy, mocker):
-    mock_get_sqlalchemy.filter_by.return_value.first.return_value = True
+def test_create_accounts_service_method(mock_get_sqlalchemy, mock_account_object, mocker):
+    mock_get_sqlalchemy.filter_by.return_value.first.return_value = mock_account_object
     mocker.patch("src.services.users_service.db.session").return_value = mocker.Mock()
-    account = AccountsService.create('id', {'name': 'Account', 'balance': 10.25})
+    account = AccountsService.create('user_id', {'name': 'Account', 'balance': 10.25})
     assert account.id is not None
-    assert account.user_id is not None
+    assert account.user_id == 'user_id'
     assert account.name == 'Account'
     assert account.balance == 10.25
     assert account.income == 0

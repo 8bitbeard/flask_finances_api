@@ -150,6 +150,16 @@ def mock_account_object():
     return account
 
 @pytest.fixture
+def mock_category_object():
+    category = Category(
+        id = uuid4(),
+        name = 'Mock Category',
+        type = 'S',
+        user_id = uuid4()
+    )
+    return category
+
+@pytest.fixture
 def mock_get_sqlalchemy(mocker):
     mock = mocker.patch("flask_sqlalchemy._QueryProperty.__get__").return_value = mocker.Mock()
     return mock
