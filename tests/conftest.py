@@ -138,6 +138,18 @@ def mock_user_object():
     return user
 
 @pytest.fixture
+def mock_account_object():
+    account = Account(
+        id = uuid4(),
+        name = 'Mock Account',
+        user_id = uuid4(),
+        balance = 10.25,
+        income = 0,
+        expense = 0
+    )
+    return account
+
+@pytest.fixture
 def mock_get_sqlalchemy(mocker):
     mock = mocker.patch("flask_sqlalchemy._QueryProperty.__get__").return_value = mocker.Mock()
     return mock
