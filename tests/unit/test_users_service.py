@@ -1,11 +1,11 @@
+# type: ignore
+
 """
 Test file for users_service.py file
 """
 
 
 import pytest
-
-from src.database import db
 
 from src.exceptions.users_exception import UserMissingParameter, UserNameInvalid, UserEmailInvalid, UserEmailAlreadyExists, UserPasswordTooShort
 from src.services.users_service import UsersService

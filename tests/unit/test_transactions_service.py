@@ -1,3 +1,5 @@
+# type: ignore
+
 """
 Test file for transactions_service.py file
 """
