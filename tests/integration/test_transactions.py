@@ -10,7 +10,8 @@ class TestIncome:
     Class to test the income blueprint method
     """
 
-    def test_income_transaction(self, test_client, init_database, insert_user_db, insert_account_db, insert_income_category_db):
+    def test_income_transaction(self, test_client, init_database, insert_user_db, insert_account_db,
+                                insert_income_category_db):
         """
         Test if expense transaction is created sucessfully
         """
@@ -39,7 +40,8 @@ class TestIncome:
         assert response.json['category']['name'] == insert_income_category_db.name
         assert response.json['category']['type'] == 'Entrada'
 
-    def test_error_income_transaction_with_negative_value(self, test_client, init_database, insert_user_db, insert_account_db, insert_income_category_db):
+    def test_error_income_transaction_with_negative_value(self, test_client, init_database, insert_user_db,
+                                                          insert_account_db, insert_income_category_db):
         """
         Test error when transaction is created with negative value
         """
@@ -65,7 +67,8 @@ class TestIncome:
         assert response.json['message'] == 'Transaction values must be bigger than 0!'
         assert response.json['details'] == ['Transaction values must be bigger than 0!']
 
-    def test_error_income_transaction_with_inexistent_category(self, test_client, init_database, insert_user_db, insert_account_db):
+    def test_error_income_transaction_with_inexistent_category(self, test_client, init_database,
+                                                               insert_user_db, insert_account_db):
         """
         Test error when transaction is created with inexistent category
         """
@@ -91,7 +94,8 @@ class TestIncome:
         assert response.json['message'] == 'Category not found!'
         assert response.json['details'] == ['Category not Found!']
 
-    def test_error_income_transaction_with_inexistent_account(self, test_client, init_database, insert_user_db, insert_income_category_db):
+    def test_error_income_transaction_with_inexistent_account(self, test_client, init_database, insert_user_db,
+                                                              insert_income_category_db):
         """
         Test error when transaction is created with inexistent category
         """
@@ -117,7 +121,8 @@ class TestIncome:
         assert response.json['message'] == 'Account not found!'
         assert response.json['details'] == ['The given account was not found!']
 
-    def test_error_income_transaction_with_expense_category(self, test_client, init_database, insert_user_db, insert_account_db, insert_expense_category_db):
+    def test_error_income_transaction_with_expense_category(self, test_client, init_database, insert_user_db,
+                                                            insert_account_db, insert_expense_category_db):
         """
         Test error when transaction is created with incorrect category type
         """
@@ -143,7 +148,8 @@ class TestIncome:
         assert response.json['message'] == 'Category type is S, but must be E!'
         assert response.json['details'] == ['This category cannot be used with this transaction type']
 
-    def test_error_income_transaction_no_authentication_header(self, test_client, init_database, insert_user_db, insert_account_db, insert_income_category_db):
+    def test_error_income_transaction_no_authentication_header(self, test_client, init_database, insert_user_db,
+                                                               insert_account_db, insert_income_category_db):
         """
         Test return error when no user exists with bearer token user_id
         """
@@ -157,7 +163,8 @@ class TestIncome:
         assert response.status_code == 401
         assert response.json['msg'] == 'Missing Authorization Header'
 
-    def test_error_income_transaction_invalid_authorization_header(self, test_client, init_database, insert_user_db, insert_account_db, insert_income_category_db):
+    def test_error_income_transaction_invalid_authorization_header(self, test_client, init_database, insert_user_db,
+                                                                   insert_account_db, insert_income_category_db):
         """
         Test return error when bearer_token is invalid
         """
@@ -167,7 +174,10 @@ class TestIncome:
             'category': insert_income_category_db.name
         }
         headers = {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+            'Authorization':
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+                '.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ'
+                '.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c '
         }
         response = test_client.post(url, json=data, headers=headers)
 
@@ -180,7 +190,8 @@ class TestExpense:
     Class to test the expense blueprint method
     """
 
-    def test_expense_transaction(self, test_client, init_database, insert_user_db, insert_account_db, insert_expense_category_db):
+    def test_expense_transaction(self, test_client, init_database, insert_user_db, insert_account_db,
+                                 insert_expense_category_db):
         """
         Test if expense transaction is created sucessfully
         """
@@ -209,7 +220,8 @@ class TestExpense:
         assert response.json['category']['name'] == insert_expense_category_db.name
         assert response.json['category']['type'] == 'Saída'
 
-    def test_error_expense_transaction_with_negative_value(self, test_client, init_database, insert_user_db, insert_account_db, insert_expense_category_db):
+    def test_error_expense_transaction_with_negative_value(self, test_client, init_database, insert_user_db,
+                                                           insert_account_db, insert_expense_category_db):
         """
         Test error when transaction is created with negative value
         """
@@ -235,7 +247,8 @@ class TestExpense:
         assert response.json['message'] == 'Transaction values must be bigger than 0!'
         assert response.json['details'] == ['Transaction values must be bigger than 0!']
 
-    def test_error_expense_transaction_with_inexistent_category(self, test_client, init_database, insert_user_db, insert_account_db):
+    def test_error_expense_transaction_with_inexistent_category(self, test_client, init_database, insert_user_db,
+                                                                insert_account_db):
         """
         Test error when transaction is created with inexistent category
         """
@@ -261,7 +274,8 @@ class TestExpense:
         assert response.json['message'] == 'Category not found!'
         assert response.json['details'] == ['Category not Found!']
 
-    def test_error_expense_transaction_with_inexistent_account(self, test_client, init_database, insert_user_db, insert_expense_category_db):
+    def test_error_expense_transaction_with_inexistent_account(self, test_client, init_database, insert_user_db,
+                                                               insert_expense_category_db):
         """
         Test error when transaction is created with inexistent account
         """
@@ -287,7 +301,8 @@ class TestExpense:
         assert response.json['message'] == 'Account not found!'
         assert response.json['details'] == ['The given account was not found!']
 
-    def test_error_expense_transaction_with_income_category(self, test_client, init_database, insert_user_db, insert_account_db, insert_income_category_db):
+    def test_error_expense_transaction_with_income_category(self, test_client, init_database, insert_user_db,
+                                                            insert_account_db, insert_income_category_db):
         """
         Test error when transaction is created with incorrect category type
         """
@@ -313,7 +328,8 @@ class TestExpense:
         assert response.json['message'] == 'Category type is E, but must be S!'
         assert response.json['details'] == ['This category cannot be used with this transaction type']
 
-    def test_error_expense_transaction_no_authentication_header(self, test_client, init_database, insert_user_db, insert_account_db, insert_expense_category_db):
+    def test_error_expense_transaction_no_authentication_header(self, test_client, init_database, insert_user_db,
+                                                                insert_account_db, insert_expense_category_db):
         """
         Test return error when no user exists with bearer token user_id
         """
@@ -327,7 +343,8 @@ class TestExpense:
         assert response.status_code == 401
         assert response.json['msg'] == 'Missing Authorization Header'
 
-    def test_error_expense_transaction_invalid_authorization_header(self, test_client, init_database, insert_user_db, insert_account_db, insert_expense_category_db):
+    def test_error_expense_transaction_invalid_authorization_header(self, test_client, init_database, insert_user_db,
+                                                                    insert_account_db, insert_expense_category_db):
         """
         Test return error when bearer_token is invalid
         """
@@ -337,7 +354,9 @@ class TestExpense:
             'category': insert_expense_category_db.name
         }
         headers = {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+                             '.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ'
+                             '.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c '
         }
         response = test_client.post(url, json=data, headers=headers)
 
@@ -350,7 +369,8 @@ class TestExtract:
     Class to test the extract blueprint method
     """
 
-    def test_transaction_extract_with_income(self, test_client, init_database, insert_user_db, insert_account_db, insert_income_category_db, insert_income_transaction_db):
+    def test_transaction_extract_with_income(self, test_client, init_database, insert_user_db, insert_account_db,
+                                             insert_income_category_db, insert_income_transaction_db):
         """
         Test if extract displays income transactions correctly
         """
@@ -372,12 +392,14 @@ class TestExtract:
         assert len(response.json) == 1
         assert response.json[0]['id'] == insert_income_transaction_db.id
         assert response.json[0]['value'] == locale.currency(insert_income_transaction_db.value)
-        assert response.json[0]['created_at'] == insert_income_transaction_db.created_at.strftime('%Y-%m-%dT%H:%M:%S.%f')
+        assert response.json[0]['created_at'] == \
+               insert_income_transaction_db.created_at.strftime('%Y-%m-%dT%H:%M:%S.%f')
         assert response.json[0]['category']['id'] == insert_income_category_db.id
         assert response.json[0]['category']['name'] == insert_income_category_db.name
         assert response.json[0]['category']['type'] == 'Entrada'
 
-    def test_transaction_extract_with_expense(self, test_client, init_database, insert_user_db, insert_account_db, insert_expense_category_db, insert_expense_transaction_db):
+    def test_transaction_extract_with_expense(self, test_client, init_database, insert_user_db, insert_account_db,
+                                              insert_expense_category_db, insert_expense_transaction_db):
         """
         Test if extract displays expense transactions correctly
         """
@@ -399,7 +421,8 @@ class TestExtract:
         assert len(response.json) == 1
         assert response.json[0]['id'] == insert_expense_transaction_db.id
         assert response.json[0]['value'] == locale.currency(insert_expense_transaction_db.value)
-        assert response.json[0]['created_at'] == insert_expense_transaction_db.created_at.strftime('%Y-%m-%dT%H:%M:%S.%f')
+        assert response.json[0]['created_at'] == \
+               insert_expense_transaction_db.created_at.strftime('%Y-%m-%dT%H:%M:%S.%f')
         assert response.json[0]['category']['id'] == insert_expense_category_db.id
         assert response.json[0]['category']['name'] == insert_expense_category_db.name
         assert response.json[0]['category']['type'] == 'Saída'
@@ -447,7 +470,8 @@ class TestExtract:
         assert response.json['message'] == 'Account not found!'
         assert response.json['details'] == ['The given account was not found!']
 
-    def test_error_transaction_extract_no_authentication_header(self, test_client, init_database, insert_user_db, insert_account_db, insert_expense_category_db):
+    def test_error_transaction_extract_no_authentication_header(self, test_client, init_database, insert_user_db,
+                                                                insert_account_db, insert_expense_category_db):
         """
         Test return error when no user exists with bearer token user_id
         """
@@ -457,13 +481,16 @@ class TestExtract:
         assert response.status_code == 401
         assert response.json['msg'] == 'Missing Authorization Header'
 
-    def test_error_transaction_extract_invalid_authorization_header(self, test_client, init_database, insert_user_db, insert_account_db, insert_expense_category_db):
+    def test_error_transaction_extract_invalid_authorization_header(self, test_client, init_database, insert_user_db,
+                                                                    insert_account_db, insert_expense_category_db):
         """
         Test return error when bearer_token is invalid
         """
         url = '/api/v1/transactions/{}/extract'.format(insert_account_db.id)
         headers = {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+                             '.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ'
+                             '.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c '
         }
         response = test_client.get(url, headers=headers)
 

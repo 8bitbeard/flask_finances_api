@@ -54,7 +54,9 @@ class TestCreateEndpoint:
             'balance': 50.25
         }
         headers = {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+                             '.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ'
+                             '.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c '
         }
         response = test_client.post(url, json=data, headers=headers)
 
@@ -239,7 +241,9 @@ class TestBalanceEndpoint:
         """
         url = '/api/v1/accounts/'
         headers = {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+                             '.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ'
+                             '.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c '
         }
         response = test_client.get(url, headers=headers)
 
@@ -281,7 +285,9 @@ class TestBalanceEndpoint:
         """
         url = '/api/v1/accounts/{}/balance'.format(insert_account_db.id)
         headers = {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+                             '.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ'
+                             '.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c '
         }
         response = test_client.get(url, headers=headers)
 
@@ -309,4 +315,3 @@ class TestBalanceEndpoint:
         assert response.json['code'] == 'NOT_FOUND'
         assert response.json['message'] == 'The given account was not found!'
         assert response.json['details'] == ['The given account was not found!']
-

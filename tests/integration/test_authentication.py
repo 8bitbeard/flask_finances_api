@@ -22,8 +22,8 @@ class TestCreate:
         assert response.status_code == 201
         assert response.json['name'] == insert_user_db.name
         assert response.json['email'] == insert_user_db.email
-        assert response.json['access'] != None
-        assert response.json['refresh'] != None
+        assert response.json['access'] is not None
+        assert response.json['refresh'] is not None
 
     def test_error_login_without_email(self, test_client, init_database, insert_user_db):
         """
@@ -111,7 +111,7 @@ class TestFind:
         response = test_client.get(url, headers=headers)
 
         assert response.status_code == 200
-        assert response.json['id'] != None
+        assert response.json['id'] is not None
         assert response.json['name'] == insert_user_db.name
         assert response.json['email'] == insert_user_db.email
 
@@ -155,7 +155,9 @@ class TestFind:
         """
         url = '/api/v1/auth/me'
         headers = {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+                             '.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ'
+                             '.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c '
         }
         response = test_client.get(url, headers=headers)
 

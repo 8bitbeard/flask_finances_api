@@ -87,7 +87,6 @@ class TestCreate:
         init_database.session.delete(insert_user_db)
         init_database.session.commit()
 
-
         url = '/api/v1/categories/'
         data = {
             'name': 'Testing',
@@ -103,7 +102,8 @@ class TestCreate:
         assert response.json['message'] == 'User not found!'
         assert response.json['details'] == ['User not found!']
 
-    def test_error_create_category_with_existent_name(self, test_client, init_database, insert_user_db, insert_income_category_db):
+    def test_error_create_category_with_existent_name(self, test_client, init_database, insert_user_db,
+                                                      insert_income_category_db):
         login_url = '/api/v1/auth/login'
         login_data = {
             'email': insert_user_db.email,
@@ -150,7 +150,9 @@ class TestCreate:
             'type': 'S'
         }
         headers = {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+                             '.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ'
+                             '.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c '
         }
         response = test_client.get(url, json=data, headers=headers)
 
@@ -224,7 +226,9 @@ class TestIndex:
         """
         url = '/api/v1/categories/'
         headers = {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+                             '.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ'
+                             '.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c '
         }
         response = test_client.get(url, headers=headers)
 

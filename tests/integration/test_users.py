@@ -82,7 +82,8 @@ class TestCreate:
         response = test_client.post(url, json=data)
         assert response.status_code == 400
         assert response.json['code'] == 'INVALID_NAME'
-        assert response.json['message'] == 'The informed name must be bigger than 3 chars, should be alphanumeric, also no spaces!'
+        assert response.json['message'] == \
+               'The informed name must be bigger than 3 chars, should be alphanumeric, also no spaces!'
         assert response.json['details'] == ['Provided name is invalid!']
 
     def test_error_register_user_with_invalid_email(self, test_client, init_database):
@@ -151,4 +152,3 @@ class TestIndex:
         assert response.json[0]['id'] == insert_user_db.id
         assert response.json[0]['name'] == insert_user_db.name
         assert response.json[0]['email'] == insert_user_db.email
-
