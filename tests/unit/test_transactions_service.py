@@ -70,7 +70,7 @@ class TestExpense:
     Class for testing the expense service method
     """
 
-    def test_expense_error_negative_value():
+    def test_expense_error_negative_value(self):
         """
         Test if expense method raises an TransactionValueNegativeOrZero exception when passing a negative value
         """
