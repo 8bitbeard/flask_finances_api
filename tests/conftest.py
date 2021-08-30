@@ -1,4 +1,5 @@
 import pytest
+import decimal
 from uuid import uuid4
 from datetime import datetime
 
@@ -9,7 +10,7 @@ from werkzeug.security import generate_password_hash
 
 from src.models.users import User
 from src.models.accounts import Account
-from src.models.categories import Category
+from src.models.categories import Category, CategoryType
 from src.models.transactions import Transaction
 
 from flask import Flask
@@ -143,21 +144,42 @@ def mock_account_object():
         id = uuid4(),
         name = 'Mock Account',
         user_id = uuid4(),
-        balance = 10.25,
-        income = 0,
-        expense = 0
+        balance = decimal.Decimal(10.25),
+        income = decimal.Decimal(0),
+        expense = decimal.Decimal(0)
     )
     return account
 
 @pytest.fixture
-def mock_category_object():
+def mock_e_category_object():
     category = Category(
         id = uuid4(),
-        name = 'Mock Category',
-        type = 'S',
+        name = 'Income Category',
+        type = CategoryType.E,
         user_id = uuid4()
     )
     return category
+
+@pytest.fixture
+def mock_s_category_object():
+    category = Category(
+        id = uuid4(),
+        name = 'Expense Category',
+        type = CategoryType.S,
+        user_id = uuid4()
+    )
+    return category
+
+@pytest.fixture
+def mock_transaction_object():
+    transaction = Transaction(
+        id = uuid4(),
+        account_id = uuid4(),
+        value = decimal.Decimal(1),
+        category_id = uuid4(),
+        created_at = datetime.now()
+    )
+    return transaction
 
 @pytest.fixture
 def mock_get_sqlalchemy(mocker):

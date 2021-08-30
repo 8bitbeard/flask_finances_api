@@ -25,13 +25,13 @@ class TransactionsService:
         if not category:
             raise CategoryNotFound('Category not found!')
 
+        if category.type != CategoryType.E:
+            raise IncorrectCategory('Category type is S, but must be E!')
+
         account = Account.query.filter_by(user_id=user_id, id=account_id).first()
 
         if not account:
             raise AccountNotFound('Account not found!')
-
-        if category.type != CategoryType.E:
-            raise IncorrectCategory('Category type is S, but must be E!')
 
         transaction = Transaction(account_id=account_id, value=value, category_id=category.id)
 
@@ -59,13 +59,13 @@ class TransactionsService:
         if not category:
             raise CategoryNotFound('Category not found!')
 
+        if category.type != CategoryType.S:
+            raise IncorrectCategory('Category type is E, but must be S!')
+
         account = Account.query.filter_by(user_id=user_id, id=account_id).first()
 
         if not account:
             raise AccountNotFound('Account not found!')
-
-        if category.type != CategoryType.S:
-            raise IncorrectCategory('Category type is E, but must be S!')
 
         transaction = Transaction(account_id=account_id, value=value, category_id=category.id)
 
