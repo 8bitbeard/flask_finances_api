@@ -1,3 +1,5 @@
+# type: ignore
+
 """
 Test file for categories_service.py
 """
@@ -7,7 +9,7 @@ import pytest
 
 from src.services.categories_service import CategoriesService
 
-from src.exceptions.categories_exception import CategoryNotFound, CategoryNameExists, CategoryInvalidType
+from src.exceptions.categories_exception import CategoryNameExists, CategoryInvalidType
 from src.exceptions.users_exception import UserNotFound
 
 
@@ -67,3 +69,4 @@ class TestIndex:
         assert categories[0].user_id is not None
         assert categories[0].name == mock_s_category_object.name
         assert categories[0].type == mock_s_category_object.type
+
