@@ -74,18 +74,18 @@ class TestCreate:
         with pytest.raises(UserPasswordTooShort):
             UsersService.create({"name":"TestUser", "email": "test_user@exmaple.com", "password": "pass"})
 
-    def test_create_users_service_method(self, mock_get_sqlalchemy, mocker):
+    def test_create_users_service_method(self, mock_get_sqlalchemy, mock_db_session, mock_user_object,
+                                         mock_hash_password):
         """
         Test if create method register a new user successfully
         """
         mock_get_sqlalchemy.filter_by.return_value.first.return_value = None
-        mocker.patch("src.services.users_service.generate_password_hash").return_value = 'hashed_password'
-        mocker.patch("src.services.users_service.db.session").return_value = mocker.Mock()
-        user = UsersService.create({"name":"TestUser", "email": "test_user@example.com", "password": "password"})
+        user = UsersService.create({"name": mock_user_object.name,
+                                    "email": mock_user_object.email, "password": mock_user_object.password})
         assert user.id is not None
-        assert user.name == 'TestUser'
-        assert user.email == 'test_user@example.com'
-        assert user.password == 'hashed_password'
+        assert user.name == mock_user_object.name
+        assert user.email == mock_user_object.email
+        assert user.password == mock_hash_password
 
 
 class TestIndex:
@@ -100,7 +100,7 @@ class TestIndex:
         mock_get_sqlalchemy.all.return_value = [mock_user_object]
         users = UsersService.index()
         assert isinstance(users, list)
-        assert users[0].id is not None
-        assert users[0].name == 'Mock User'
-        assert users[0].email == 'mock_user@example.com'
-        assert users[0].password == 'password'
+        assert users[0].id == mock_user_object.id
+        assert users[0].name == mock_user_object.name
+        assert users[0].email == mock_user_object.email
+        assert users[0].password == mock_user_object.password

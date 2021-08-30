@@ -52,19 +52,17 @@ class TestLogin:
         with pytest.raises(AuthenticationBadCredentials):
             AuthenticationService.login({'email': 'email@example.com', 'password': 'password'})
 
-    def test_login_authentication_service_method(self, mock_get_sqlalchemy, mock_user_object, mocker):
+    def test_login_authentication_service_method(self, mock_get_sqlalchemy, mock_user_object, mock_token_data, mocker):
         """
         Test if the login method returns the login infos successfully
         """
         mock_get_sqlalchemy.filter_by.return_value.first.return_value = mock_user_object
         mocker.patch("src.services.authentication_service.check_password_hash").return_value = True
-        mocker.patch("src.services.authentication_service.create_access_token").return_value = 'access_token'
-        mocker.patch("src.services.authentication_service.create_refresh_token").return_value = 'refresh_token'
         login = AuthenticationService.login({'email': 'email@example.com', 'password': 'password'})
         assert login['name'] == mock_user_object.name
         assert login['email'] == mock_user_object.email
-        assert login['access'] == 'access_token'
-        assert login['refresh'] == 'refresh_token'
+        assert login['access'] == mock_token_data['access']
+        assert login['refresh'] == mock_token_data['refresh']
 
 
 class TestFind:

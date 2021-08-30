@@ -65,8 +65,8 @@ class TestIndex:
         """
         mock_get_sqlalchemy.filter_by.return_value = [mock_s_category_object]
         categories = CategoriesService.index(mock_user_object.id)
-        assert categories[0].id is not None
-        assert categories[0].user_id is not None
+        assert categories[0].id == mock_s_category_object.id
+        assert categories[0].user_id == mock_s_category_object.user_id
         assert categories[0].name == mock_s_category_object.name
         assert categories[0].type == mock_s_category_object.type
 

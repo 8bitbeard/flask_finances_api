@@ -51,18 +51,20 @@ class TestIncome:
         with pytest.raises(IncorrectCategory):
             TransactionsService.income('user_id', 'account_id', {'value': 1, 'category': 'Category'})
 
-    def test_income_transactions_service_method(self, mock_get_sqlalchemy, mock_account_object, mock_e_category_object,
-                                                mocker):
+    def test_income_transactions_service_method(self, mock_get_sqlalchemy, mock_user_object, mock_account_object,
+                                                mock_e_category_object, mock_transaction_object, mocker):
         """
         Test if income method creates a income transaction successfully
         """
         mock_get_sqlalchemy.filter_by.return_value.first.side_effect = [mock_e_category_object, mock_account_object]
         mocker.patch("src.services.users_service.db.session").return_value = mocker.Mock()
-        transaction = TransactionsService.income('user_id', 'account_id', {'value': 1, 'category': 'Category'})
+        transaction = TransactionsService.income(mock_user_object.id, mock_account_object.id,
+                                                 {'value': mock_transaction_object.value,
+                                                  'category': mock_e_category_object.name})
 
         assert transaction.id is not None
-        assert transaction.account_id is not None
-        assert transaction.value == 1
+        assert transaction.account_id == mock_account_object.id
+        assert transaction.value == mock_transaction_object.value
         assert transaction.category_id == mock_e_category_object.id
         assert transaction.created_at is not None
 

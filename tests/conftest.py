@@ -1,5 +1,6 @@
 import pytest
 import decimal
+
 from uuid import uuid4
 from datetime import datetime
 
@@ -12,9 +13,6 @@ from src.models.users import User
 from src.models.accounts import Account
 from src.models.categories import Category, CategoryType
 from src.models.transactions import Transaction
-
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 
 
 @pytest.fixture
@@ -130,7 +128,7 @@ def new_transaction(new_account):
 def mock_user_object():
     user = User(
         id=uuid4(),
-        name="Mock User",
+        name="MockUser",
         email="mock_user@example.com",
         password="password",
         created_at = datetime.now(),
@@ -182,6 +180,26 @@ def mock_transaction_object():
     return transaction
 
 @pytest.fixture
+def mock_hash_password(mocker):
+    hash_mock = mocker.patch("src.services.users_service.generate_password_hash").return_value = 'hashed_password'
+    return hash_mock
+
+@pytest.fixture
+def mock_token_data(mocker):
+    access = mocker.patch("src.services.authentication_service.create_access_token").return_value = 'access_token',
+    refresh = mocker.patch("src.services.authentication_service.create_refresh_token").return_value = 'refresh_token'
+    token_data = {
+        'access': access,
+        'refresh': refresh
+    }
+    return token_data
+
+@pytest.fixture
 def mock_get_sqlalchemy(mocker):
     mock = mocker.patch("flask_sqlalchemy._QueryProperty.__get__").return_value = mocker.Mock()
+    return mock
+
+@pytest.fixture
+def mock_db_session(mocker):
+    mock = mocker.patch("src.services.users_service.db.session").return_value = mocker.Mock()
     return mock
