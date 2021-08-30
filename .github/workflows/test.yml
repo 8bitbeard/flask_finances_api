@@ -48,6 +48,7 @@ jobs:
       - name: Unit Tests
         env:
           FLASK_APP: src
+          FLASK_ENV: testing
           DATABASE_URL_TST: postgresql://flask_github_actions:postgres@localhost:5432/flask_github_actions_test
         run: |
           pytest tests/unit/
