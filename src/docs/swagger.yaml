@@ -1,0 +1,480 @@
+swagger: "2.0"
+info:
+  description: "This is the API documentation for the `Flask Finances API` project, an API built based on a Interview practic test. Here you will find all the endpoints created based on the test, and new ones, added on a improovement of the API"
+  version: "1.0.0"
+  title: "Flask Finances API"
+host: "flask-finances.herokuapp.com"
+basePath: "/api"
+tags:
+- name: "Authentication"
+  description: "Finances Authentication Operations."
+- name: "Users"
+  description: "Finances User Operations."
+- name: "Accounts"
+  description: "Finances Account Operations."
+- name: "Categories"
+  description: "Finances Categories Operations."
+- name: "Transactions"
+  description: "Finances Transactions Operations."
+schemes:
+- "https"
+- "http"
+paths:
+  /v1/auth/login:
+    post:
+      tags:
+      - "Authentication"
+      summary: "Authenticate a user"
+      description: "Authenticate users"
+      operationId: "authenticateUsers"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User credentials object"
+        required: true
+        schema:
+          $ref: "#/definitions/Login"
+      responses:
+        "200":
+          description: "successful operation"
+          examples:
+            application/json:
+              name: 'Example User'
+              email: 'example_user@example.com'
+              access: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IndpbHRvbjJAZXhhbXBsZS5jb20iLCJpYXQiOjE2MjYxNzI5MjQsImV4cCI6MTYyNjI1OTMyNCwic3ViIjoiNDUzZWVhODctNzQxNi00MGY0LTllMzctZTA2NGU1ZmVkOTYzIn0.ApvFv5Dz6yPnURYfC7BBAEID2DHf08TG4Yllh49_VuA'
+              refresh: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IndpbHRvbjJAZXhhbXBsZS5jb20iLCJpYXQiOjE2MjYxNzI5MjQsImV4cCI6MTYyNjI1OTMyNCwic3ViIjoiNDUzZWVhODctNzQxNi00MGY0LTllMzctZTA2NGU1ZmVkOTYzIn0.ApvFv5Dz6yPnURYfC7BBAEID2DHf08TG4Yllh49_VuA'
+  /v1/auth/me:
+    get:
+      tags:
+      - "Authentication"
+      summary: "Get authenticated user data"
+      description: "Get authenticated user data"
+      operationId: "authenticatedUserData"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: 'Ex: Bearer **eyJhbGciOiJSUzUxMiIsI...**'
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+  /v1/users:
+    post:
+      tags:
+      - "Users"
+      summary: "Create a new user"
+      description: "This can only be done by the logged in user."
+      operationId: "createUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created user object"
+        required: true
+        schema:
+          $ref: "#/definitions/CreateUser"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ListUser"
+    get:
+      tags:
+      - "Users"
+      summary: "List all users"
+      description: "List all users."
+      operationId: "listUsers"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            items:
+              $ref: "#/definitions/ListUser"
+  /v1/accounts:
+    post:
+      tags:
+      - "Accounts"
+      summary: "Create a new account for logged in user"
+      description: "This can only be done by the logged in user."
+      operationId: "createAccount"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "Ex: Bearer **eyJhbGciOiJSUzUxMiIsI...**"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "New tag object"
+        required: true
+        schema:
+          $ref: "#/definitions/CreateAccount"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ListAccount"
+    get:
+      tags:
+      - "Accounts"
+      summary: "List all accounts for logged in user"
+      description: "This can only be done by the logged in user."
+      operationId: "listAccounts"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "Ex: Bearer **eyJhbGciOiJSUzUxMiIsI...**"
+        required: true
+        type: "string"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            items:
+              $ref: "#/definitions/ListAccount"
+  /v1/accounts/{accountId}/balance:
+    get:
+      tags:
+      - "Accounts"
+      summary: "Get the balance for given account"
+      description: "This can only be done by the logged in user."
+      operationId: "getAccountBalance"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "accountId"
+        in: "path"
+        description: "Ex: b14f4379-1293-44fd-ad14-5de85bedd535"
+        required: true
+        type: "string"
+      - name: "Authorization"
+        in: "header"
+        description: "Ex: Bearer **eyJhbGciOiJSUzUxMiIsI...**"
+        required: true
+        type: "string"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GetAccountBalance"
+  /v1/categories:
+    post:
+      tags:
+      - "Categories"
+      summary: "Create a new category for logged in user"
+      description: "This can only be done by the logged in user."
+      operationId: "createCategory"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "Ex: Bearer **eyJhbGciOiJSUzUxMiIsI...**"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "New tag object"
+        required: true
+        schema:
+          $ref: "#/definitions/CreateCategory"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ListIncomeCategory"
+    get:
+      tags:
+      - "Categories"
+      summary: "List all categories of logged in user"
+      description: "This can only be done by the logged in user."
+      operationId: "listCategories"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "Ex: Bearer **eyJhbGciOiJSUzUxMiIsI...**"
+        required: true
+        type: "string"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            items:
+              $ref: "#/definitions/ListIncomeCategory"
+  /v1/transactions/{accountId}/income:
+    post:
+      tags:
+      - "Transactions"
+      summary: "Create a new income transaction for logged in user"
+      description: "This can only be done by the logged in user."
+      operationId: "createIncomeTransaction"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "Ex: Bearer **eyJhbGciOiJSUzUxMiIsI...**"
+        required: true
+        type: "string"
+      - name: "accountId"
+        in: "path"
+        description: "Ex: b14f4379-1293-44fd-ad14-5de85bedd535"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "New tag object"
+        required: true
+        schema:
+          $ref: "#/definitions/CreateIncomeTransaction"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ListIncomeTransaction"
+  /v1/transactions/{accountId}/expense:
+    post:
+      tags:
+      - "Transactions"
+      summary: "Create a new expense transaction for logged in user"
+      description: "This can only be done by the logged in user."
+      operationId: "createExpenseTransaction"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "Ex: Bearer **eyJhbGciOiJSUzUxMiIsI...**"
+        required: true
+        type: "string"
+      - name: "accountId"
+        in: "path"
+        description: "Ex: b14f4379-1293-44fd-ad14-5de85bedd535"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "New tag object"
+        required: true
+        schema:
+          $ref: "#/definitions/CreateExpenseTransaction"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ListExpenseTransaction"
+  /v1/transactions/{accountId}/extract:
+    get:
+      tags:
+      - "Transactions"
+      summary: "Create a new expense transaction for logged in user"
+      description: "This can only be done by the logged in user."
+      operationId: "transactionsExtract"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "Ex: Bearer **eyJhbGciOiJSUzUxMiIsI...**"
+        required: true
+        type: "string"
+      - name: "accountId"
+        in: "path"
+        description: "Ex: b14f4379-1293-44fd-ad14-5de85bedd535"
+        required: true
+        type: "string"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            items:
+              - $ref: "#/definitions/ListExpenseTransaction"
+              - $ref: "#/definitions/ListIncomeTransaction"
+definitions:
+  Login:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        example: "example@example.com"
+      password:
+        type: "string"
+        example: "1234"
+    xml:
+      name: "Login"
+  CreateUser:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "Example"
+      email:
+        type: "string"
+        example: "example@example.com"
+    xml:
+      name: "CreateUser"
+  ListUser:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "3019c1a4-6388-4bbb-a121-59017027ca17"
+      name:
+        type: "string"
+        example: "Example"
+      email:
+        type: "string"
+        example: "example@example.com"
+    xml:
+      name: "ListUser"
+  CreateAccount:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "Poupança Banco X"
+      balance:
+        type: "number"
+        example: 10.25
+    xml:
+      name: "User"
+  ListAccount:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "3019c1a4-6388-4bbb-a121-59017027ca17"
+      name:
+        type: "string"
+        example: "Poupança Banco X"
+      income:
+        type: "string"
+        example: "R$ 0,00"
+      expense:
+        type: "string"
+        example: "R$ 0,00"
+      balance:
+        type: "string"
+        example: "R$ 10,25"
+    xml:
+      name: "User"
+  GetAccountBalance:
+    type: "object"
+    properties:
+      balance:
+        type: "string"
+        example: "R$ 50,25"
+    xml:
+      name: "GetAccountBalance"
+  CreateCategory:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "Salário"
+      type:
+        type: "string"
+        example: "E"
+    xml:
+      name: "CreateCategory"
+  ListIncomeCategory:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "3019c1a4-6388-4bbb-a121-59017027ca17"
+      name:
+        type: "string"
+        example: "Salário"
+      type:
+        type: "string"
+        example: "Entrada"
+    xml:
+      name: "ListIncomeCategory"
+  ListExpenseCategory:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "3019c1a4-6388-4bbb-a121-59017027ca17"
+      name:
+        type: "string"
+        example: "Mercado"
+      type:
+        type: "string"
+        example: "Saída"
+    xml:
+      name: "ListExpenseCategory"
+  CreateIncomeTransaction:
+    type: "object"
+    properties:
+      value:
+        type: "number"
+        example: 1350.02
+      category:
+        type: "string"
+        example: "Salário"
+    xml:
+      name: "CreateIncomeTransaction"
+  CreateExpenseTransaction:
+    type: "object"
+    properties:
+      value:
+        type: "number"
+        example: 371.75
+      category:
+        type: "string"
+        example: "Mercado"
+    xml:
+      name: "CreateExpenseTransaction"
+  ListIncomeTransaction:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "c4a247ac-fd33-4e17-b2e7-78b2a425567c"
+      value:
+        type: "number"
+        example: 1350.02
+      created_at:
+        type: "string"
+        example: "2021-08-27T13:57:07.495291"
+      category:
+        $ref: "#/definitions/ListIncomeCategory"
+    xml:
+      name: "ListCategory"
+  ListExpenseTransaction:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        example: "c4a247ac-fd33-4e17-b2e7-78b2a425567c"
+      value:
+        type: "number"
+        example: 371.75
+      created_at:
+        type: "string"
+        example: "2021-08-27T13:57:07.495291"
+      category:
+        $ref: "#/definitions/ListExpenseCategory"
+    xml:
+      name: "ListIncomeTransaction"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
