@@ -1,6 +1,6 @@
 # Flask Finances API
 
-A simple finances API made with Flask and SQLAlchemy. The API documentation is hosted on Github Pages, and can be acessed on the link: https://8bitbeard.github.io/flask_finances_api/docs
+A simple finances API made with Flask and SQLAlchemy. The API documentation is hosted on Github Pages, and can be acessed on the link: https://8bitbeard.github.io/flask_finances_api/
 
 
 # Techs used
