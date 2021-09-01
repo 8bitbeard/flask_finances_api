@@ -1,11 +1,13 @@
 # Flask Finances API
 
-A simple finances API made with Flask and SQLAlchemy
+A simple finances API made with Flask and SQLAlchemy. The API documentation is hosted on Github Pages, and can be acessed on the link: https://8bitbeard.github.io/flask_finances_api/docs
 
 
 # Techs used
 - Flask
-- SQLalchemy
+- SQLAlchemy
+- Marshmallow
+- Pytest
 
 # Installing the Development Environment
 - Install python3 on your machine. You can download it on the following link: https://www.python.org/downloads/
@@ -40,7 +42,9 @@ $(venv) pip install -r requirements.txt
 export FLASK_APP=src
 export FLASK_ENV=development
 export SECRET_KEY=<define_a_secretkey_here>
-export DATABASE_URL=<define_a_database_url_here>
+export JWT_SECRET_KEY=<define_a_jwt_secretkey_here>
+export DATABASE_URL=<define_a_development_database_url_here>
+export DATABASE_URL_TST=<define_a_testing_database_url_here>
 ```
 
 # Configuring the database
@@ -53,10 +57,144 @@ $(venv) flask db migrate
 $(venv) flask db upgrade
 ```
 
+Atention: If you want to run the **integration** tests on your machine, you will need to create a second database, and add the url on the `DATABASE_URL_TST` environment variable.
+
+The testing db will be configured with the pytest fixture, so there is no need to run migrations on it
+
 # Starting the Local Server
-- To start the local server, run the following command:
+To start the local server, run the following command:
 ```bash
 $(venv) flask run
 ```
 
-This will start the server on the port 5000.
+This will start the server on the port 5000 (url: http://localhost:5000).
+
+# Using the API
+
+### You can see all the listed endpoints on the
+
+First you will need to create a new user, so call the **POST** endpoint **/api/v1/auth/users/** with the following body (As an example):
+```json
+{
+	"name": "Example User",
+	"email": "example_user@xample.com",
+	"password": "example"
+}
+```
+After that you will have a registered user. You can call the **GET** endpoint **/api/v1/auth/users/** and confirm that:
+```json
+[
+  {
+    "id": "3019c1a4-6388-4bbb-a121-59017027ca17", <- This is randomly generated!
+    "name": "Example User",
+    "email": "example_user@example.com"
+  }
+]
+```
+
+With the registered user, you can now login on the application, to make request to the other endpoints. Make an request to the **POST** endpoint **/api/v1/auth/login**, and log in:
+```json
+[
+  {
+    "email": "example_user@example.com",
+    "password": "example"
+  }
+]
+```
+
+This will give you a valid access_token!
+```json
+{
+  "name": "Example User",
+  "email": "example_user@example.com",
+  "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYzMDQyNDc5NiwianRpIjoiOGJlMGQ4NDktMDU4NC00ZWExLWFiMTctMzJkYjRmZWQ5Njc0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMwMTljMWE0LTYzODgtNGJiYi1hMTIxLTU5MDE3MDI3Y2ExNyIsIm5iZiI6MTYzMDQyNDc5NiwiZXhwIjoxNjMwNDI1Njk2fQ.JeDXbcvu4a63UMJ1BzZPTgxMIcflNmF4nP9zNOU0AFQ",
+  "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYzMDQyNDc5NiwianRpIjoiM2ZlYTFjY2UtYjdlNS00ZWI0LTljY2UtODYxYjI0YWMzNDgwIiwidHlwZSI6InJlZnJlc2giLCJzdWIiOiIzMDE5YzFhNC02Mzg4LTRiYmItYTEyMS01OTAxNzAyN2NhMTciLCJuYmYiOjE2MzA0MjQ3OTYsImV4cCI6MTYzMzAxNjc5Nn0.X6zrwIO-UBMvpBqQ96fhEW1W8sBwkjWuWLvLiPztNd8"
+}
+```
+
+With this access token, you can create a new account for the user on the **POST** endpoint **/api/v1/accounts**:
+```json
+{
+	"name": "Sample Account",
+	"balance": 50.25
+}
+```
+
+List the user accounts on the **GET** endpoint **/api/v1/accounts**:
+```json
+[
+  {
+    "id": "63c82a1b-e737-4c42-9a75-96424e9723d3", <- Also randomly generated!
+    "name": "Sample Account",
+    "income": "R$ 0,00",                          <- Always starts with zero!
+    "expense": "R$ 0,00",                         <- Always starts with zero!
+    "balance": "R$ 50,25"                         <- Initial account balance!
+  }
+]
+```
+
+Verify the balance of a giver user account with the **GET** endpoint **/api/v1/accounts/{accountId}/balance**:
+```json
+{
+  "balance": "R$ 50,25"
+}
+```
+
+Create a new income/expense category with the **POST** endpoint **/api/v1/categories/**
+```json
+{
+  "name": "Salário",
+  "type": "E"                         <- Must be either E(income) or S(expense)!
+}
+```
+
+List all the user categories with the **GET** endpoint **/api/v1/categories/**:
+```json
+[
+  {
+    "id": "2f2189d5-fdca-4e8f-bb3c-c243a964b89c",  <- You got the idea
+    "name": "Salário",
+    "type": "Entrada"                              <- If created with E, this will be "Entrada", if with S "Saída"
+  }
+]
+```
+
+Create income transactions with the **POST** endpoint **/api/v1/transactions/{accountId}/income**:
+```json
+{
+	"value": 1000.78,
+	"category": "Salário"
+}
+```
+Create expense transactions with the **POST** endpoint **/api/v1/transactions/{accountId}/expense**:
+```json
+{
+	"value": 225.78,
+	"category": "Mercado"
+}
+```
+and finally list the transactions extract with the **GET** endpoint **/api/v1/transactions/{accountId}/extract**:
+```json
+[
+  {
+    "id": "8033508d-a530-44b9-a97f-db5c12623b87",
+    "value": "R$ 1000,78",
+    "created_at": "2021-08-27T13:32:37.633667",
+    "category": {
+      "id": "2f2189d5-fdca-4e8f-bb3c-c243a964b89c",
+      "name": "Salário",
+      "type": "Entrada"
+    }
+  },
+  {
+    "id": "7425bf49-bbbb-4445-b618-d193ebf21418",
+    "value": "R$ 225,78",
+    "created_at": "2021-08-27T13:32:53.639146",
+    "category": {
+      "id": "72a611ef-573a-4df5-8b47-49d210283ae9",
+      "name": "Mercado",
+      "type": "Saída"
+    }
+  }
+]
+```
