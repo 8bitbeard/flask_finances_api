@@ -85,7 +85,7 @@ After that you will have a registered user. You can call the **GET** endpoint **
 ```json
 [
   {
-    "id": "3019c1a4-6388-4bbb-a121-59017027ca17", <- This is randomly generated!
+    "id": "3019c1a4-6388-4bbb-a121-59017027ca17",
     "name": "Example User",
     "email": "example_user@example.com"
   }
@@ -124,11 +124,11 @@ List the user accounts on the **GET** endpoint **/api/v1/accounts**:
 ```json
 [
   {
-    "id": "63c82a1b-e737-4c42-9a75-96424e9723d3", <- Also randomly generated!
+    "id": "63c82a1b-e737-4c42-9a75-96424e9723d3",
     "name": "Sample Account",
-    "income": "R$ 0,00",                          <- Always starts with zero!
-    "expense": "R$ 0,00",                         <- Always starts with zero!
-    "balance": "R$ 50,25"                         <- Initial account balance!
+    "income": "R$ 0,00",
+    "expense": "R$ 0,00",
+    "balance": "R$ 50,25"
   }
 ]
 ```
@@ -144,7 +144,7 @@ Create a new income/expense category with the **POST** endpoint **/api/v1/catego
 ```json
 {
   "name": "Salário",
-  "type": "E"                         <- Must be either E(income) or S(expense)!
+  "type": "E"
 }
 ```
 
@@ -152,9 +152,9 @@ List all the user categories with the **GET** endpoint **/api/v1/categories/**:
 ```json
 [
   {
-    "id": "2f2189d5-fdca-4e8f-bb3c-c243a964b89c",  <- You got the idea
+    "id": "2f2189d5-fdca-4e8f-bb3c-c243a964b89c",
     "name": "Salário",
-    "type": "Entrada"                              <- If created with E, this will be "Entrada", if with S "Saída"
+    "type": "Entrada"
   }
 ]
 ```
