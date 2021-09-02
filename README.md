@@ -1,7 +1,8 @@
 # Flask Finances API
 
-A simple finances API made with Flask and SQLAlchemy. The API documentation is hosted on Github Pages, and can be acessed on the link: https://8bitbeard.github.io/flask_finances_api/
+A simple finances API made with Flask,  SQLAlchemy and Marshmallow. The API documentation is hosted on Github Pages, and can be acessed on the link: https://8bitbeard.github.io/flask_finances_api/
 
+The API is hosted on Heroku, and can be accessed trough the link: https://flask-finances.herokuapp.com/
 
 # Techs used
 - Flask
@@ -10,6 +11,8 @@ A simple finances API made with Flask and SQLAlchemy. The API documentation is h
 - PostgreSQL
 - Pytest
 - Docker Compose
+- Github Workflow
+- Heroku
 
 # Installing the Development Environment
 ## If you have Docker Compose on your machine
@@ -28,20 +31,20 @@ After building the images, if no errors are displayed, you should see something 
 
 ```bash
 Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
-Creating flask_finances_api_db_1 ... done
-Creating flask_finances_api_api_1 ... done
-
+Creating flask_finances_api_db-test_1 ... done
+Creating flask_finances_api_db_1      ... done
+Creating flask_finances_api_api_1     ... done
 ```
 
 And if you run the command `docker-compose ps` you should get the following return
 
 ```bash
 $ docker-compose ps
-          Name                        Command              State                    Ports
------------------------------------------------------------------------------------------------------------
-flask_finances_api_api_1   sh ./docker-entrypoint.sh       Up      0.0.0.0:5000->5000/tcp,:::5000->5000/tcp
-flask_finances_api_db_1    docker-entrypoint.sh postgres   Up      5432/tcp
-
+            Name                          Command              State                    Ports
+---------------------------------------------------------------------------------------------------------------
+flask_finances_api_api_1       sh ./docker-entrypoint.sh       Up      0.0.0.0:5000->5000/tcp,:::5000->5000/tcp
+flask_finances_api_db-test_1   docker-entrypoint.sh postgres   Up      0.0.0.0:5105->5432/tcp,:::5105->5432/tcp
+flask_finances_api_db_1        docker-entrypoint.sh postgres   Up      0.0.0.0:5961->5432/tcp,:::5961->5432/tcp
 ```
 
 
@@ -80,7 +83,7 @@ export FLASK_ENV=development
 export SECRET_KEY=<define_a_secretkey_here>
 export JWT_SECRET_KEY=<define_a_jwt_secretkey_here>
 export DATABASE_URL=<define_a_development_database_url_here> # this should be postgresql://postgres:postgres@db:5432/flask_finances_development if running with docker compose
-export DATABASE_URL_TST=<define_a_testing_database_url_here>
+export DATABASE_URL_TST=<define_a_testing_database_url_here> # this should be postgresql://postgres:postgres@db-test:5432/flask_finances_testing if running with docker compose
 ```
 
 # Configuring the database
@@ -104,6 +107,40 @@ $(venv) flask run
 ```
 
 This will start the server on the port 5000 (url: http://localhost:5000).
+
+# Running tests
+This project is covered by **Unit** and **Integration** testing, both using `Pytest` as the test framework.
+- To run only the integration tests, you can run the command
+```sh
+# If local server is running with docker-compose
+$ docker-compose exec api pytest tests/integration/ -v
+
+#if local server is running on local development environment
+$(venv) pytest tests/integration/ -v
+```
+
+- To run only the unit tests, you can run one of the following commands
+```sh
+# If local server is running with docker-compose
+$ docker-compose exec api pytest tests/unit/ -v
+
+#if local server is running on local development environment
+$(venv) pytest tests/unit/ -v
+```
+
+- To run all the tests, and get the coverage report, you can run the command
+```sh
+# If local server is running with docker-compose
+$ docker-compose exec api pytest -v --cov=src
+
+#if local server is running on local development environment
+$(venv) pytest -v --cov=src
+```
+
+# Github Workflow
+With the tests covering 100% of the API project, a github workflow was implemented to validate all the code before deploying to production (Heroku).
+After any push to the master branch (Pushing directly to it, or merging from any PR), the integration + unit tests will run and scan all the code. If all tests pass, the deploy on heroku will proceed.
+Here (https://github.com/8bitbeard/flask_finances_api/actions) you can find the last deploy validations.
 
 # Using the API
 
