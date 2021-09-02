@@ -1,0 +1,35 @@
+version: '3.6'
+
+services:
+  api:
+    build: .
+    depends_on:
+      - db
+    env_file:
+      - ./.env.docker
+    ports:
+      - 5000:5000
+    volumes:
+      - ./:/usr/src/app/
+      - ./src/database/migrations:/usr/src/app/src/database/migrations
+    restart: always
+
+  db:
+    image: postgres:latest
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - pgconf:/etc/postgresql
+      - pglog:/var/log/postgresql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: flask_finances_development
+    restart: always
+
+volumes:
+  pgdata:
+    driver: local
+  pgconf:
+    driver: local
+  pglog:
+    driver: local

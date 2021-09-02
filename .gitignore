@@ -1,5 +1,5 @@
 .DS_Store
-.env
+.env*
 .flaskenv
 *.pyc
 *.pyo
@@ -28,3 +28,5 @@ htmlcov/
 
 src/database/migrations/versions/*.py
 !env.py
+
+postgres-data/

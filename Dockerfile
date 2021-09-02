@@ -1,27 +1,48 @@
-# syntax=docker/dockerfile:1
 
-# FROM python:3.9-alpine3.14
+# FROM python:3.8.0-alpine
 
-# WORKDIR /app
+# WORKDIR /usr/src/app
 
-# COPY requirements.txt requirements.txt
+# # set environment variables
+# ENV PYTHONDONTWRITEBYTECODE 1
+# ENV PYTHONUNBUFFERED 1
 
-# RUN pip install -r requirements.txt
+# COPY ./requirements.txt /usr/src/app/requirements.txt
 
-# COPY . .
+# RUN \
+#     apk add --no-cache postgresql-libs libstdc++ && \
+#     apk add --no-cache --virtual .build-deps gcc g++ musl-dev postgresql-dev && \
+#     python3 -m pip install -r requirements.txt --no-cache-dir && \
+#     apk --purge del .build-deps
 
-FROM python:3-alpine
+# COPY . /usr/src/app/
 
-WORKDIR /usr/src/app
+# RUN ls -la src/
 
-COPY requirements.txt .
+# EXPOSE 5000
 
-RUN \
-    apk add --no-cache postgresql-libs libstdc++ && \
-    apk add --no-cache --virtual .build-deps gcc g++ musl-dev postgresql-dev && \
-    python3 -m pip install -r requirements.txt --no-cache-dir && \
-    apk --purge del .build-deps
+# RUN chmod u+x ./docker-entrypoint.sh
+# ENTRYPOINT ["sh", "./docker-entrypoint.sh"]
 
-COPY . .
 
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+FROM ubuntu:latest
+
+RUN apt-get update -y && \
+    apt-get install -y python3-pip python3 libpq-dev locales -y && \
+    locale-gen pt_BR.UTF-8 && \
+    update-locale LANG=pt_BR.UTF-8
+
+ENV LANG en_US.UTF-8
+
+COPY ./requirements.txt /app/requirements.txt
+
+WORKDIR /app
+
+RUN pip install -r ./requirements.txt
+
+COPY . /app
+
+EXPOSE 5000
+
+RUN chmod u+x ./docker-entrypoint.sh
+ENTRYPOINT ["sh", "./docker-entrypoint.sh"]

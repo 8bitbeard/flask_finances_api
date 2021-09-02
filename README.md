@@ -7,9 +7,45 @@ A simple finances API made with Flask and SQLAlchemy. The API documentation is h
 - Flask
 - SQLAlchemy
 - Marshmallow
+- PostgreSQL
 - Pytest
+- Docker Compose
 
 # Installing the Development Environment
+## If you have Docker Compose on your machine
+
+- Clone this repository on your machine
+- cd into the repository folder, and build the docker images with docker-compose:
+```bash
+$ cd flask_finances_api
+
+$ docker-compose up -d -build
+```
+
+Since this project uses locale currency to convert monetary values accordingly to the locale, and since python-apline does not support locales natively, the app image was built with ubuntu:latest.
+
+After building the images, if no errors are displayed, you should see something like this on your shell:
+
+```bash
+Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+Creating flask_finances_api_db_1 ... done
+Creating flask_finances_api_api_1 ... done
+
+```
+
+And if you run the command `docker-compose ps` you should get the following return
+
+```bash
+$ docker-compose ps
+          Name                        Command              State                    Ports
+-----------------------------------------------------------------------------------------------------------
+flask_finances_api_api_1   sh ./docker-entrypoint.sh       Up      0.0.0.0:5000->5000/tcp,:::5000->5000/tcp
+flask_finances_api_db_1    docker-entrypoint.sh postgres   Up      5432/tcp
+
+```
+
+
+## If you don't have Docker Compose on your machine
 - Install python3 on your machine. You can download it on the following link: https://www.python.org/downloads/
 - install virtualenv package with pip:
 ```bash
@@ -37,13 +73,13 @@ $(venv) pip install -r requirements.txt
 ```
 
 # Configuring the envionment variables
-- To run the Flask application, you will need to create a `.env` file on the root of the project with the following variables:
+- To run the Flask application, you will need to create a `.env` (or a `.env.docker` if you followed the Docker Compose way) file on the root of the project with the following variables:
 ```
 export FLASK_APP=src
 export FLASK_ENV=development
 export SECRET_KEY=<define_a_secretkey_here>
 export JWT_SECRET_KEY=<define_a_jwt_secretkey_here>
-export DATABASE_URL=<define_a_development_database_url_here>
+export DATABASE_URL=<define_a_development_database_url_here> # this should be postgresql://postgres:postgres@db:5432/flask_finances_development if running with docker compose
 export DATABASE_URL_TST=<define_a_testing_database_url_here>
 ```
 
