@@ -1,3 +1,7 @@
+"""
+Users Controller File
+"""
+
 from flask import Blueprint, request
 
 from src.constants import http_status_codes
@@ -12,6 +16,9 @@ users = Blueprint("users", __name__, url_prefix="/api/v1/users")
 
 @users.post('/')
 def create():
+    """
+    Create a new user
+    """
     data = request.json
 
     print(data)
@@ -25,7 +32,9 @@ def create():
 
 @users.get('/')
 def index():
-
+    """
+    List all created users
+    """
     user_schema = UserSchema(many=True)
 
     found_users = UsersService.index()

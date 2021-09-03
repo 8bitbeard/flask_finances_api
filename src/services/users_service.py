@@ -1,3 +1,7 @@
+"""
+Users Service File
+"""
+
 import validators
 
 from werkzeug.security import generate_password_hash
@@ -11,8 +15,14 @@ from src.exceptions.users_exception import UserEmailAlreadyExists, UserEmailInva
 
 
 class UsersService:
+    """
+    Users Service Class
+    """
 
     def create(data):
+        """
+        Usee create service method
+        """
         if 'email' not in data or 'name' not in data or 'password' not in data:
             raise UserMissingParameter('Email, Username and Password parameters must be provided!')
 
@@ -44,6 +54,9 @@ class UsersService:
         return user
 
     def index():
+        """
+        User list service method
+        """
 
         users = User.query.all()
 

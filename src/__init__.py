@@ -1,9 +1,15 @@
+"""
+Flask app initialization file
+"""
+
 import os
 
 from flask import Flask
 from flask.json import jsonify
 
 from flask_jwt_extended import JWTManager
+
+from werkzeug.exceptions import InternalServerError
 
 from src.database import db, migrate, ma
 
@@ -19,14 +25,15 @@ from src.config import config_by_name
 
 from src.exceptions.categories_exception import APIError
 
-from werkzeug.exceptions import InternalServerError
-
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 MIGRATION_DIR = os.path.join(basedir, 'database', 'migrations')
 
 
 def create_app(config_name='development'):
+    """
+    Create app method
+    """
 
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
@@ -47,13 +54,13 @@ def create_app(config_name='development'):
     app.register_blueprint(categories)
 
     @app.errorhandler(http_status_codes.HTTP_404_NOT_FOUND)
-    def handle_404(e):
+    def handle_404(exp):
         return jsonify({
             'error': 'Not found'
         }), http_status_codes.HTTP_404_NOT_FOUND
 
     @app.errorhandler(http_status_codes.HTTP_500_INTERNAL_SERVER_ERROR)
-    def handle_500(e):
+    def handle_500(exp):
         return jsonify({
             'error': 'Something went very very VERYY bad! We are working on it!!!'
         }), http_status_codes.HTTP_500_INTERNAL_SERVER_ERROR

@@ -27,20 +27,21 @@
 
 FROM ubuntu:latest
 
-RUN apt-get update -y && \
+RUN \
+    apt-get update -y && \
     apt-get install -y python3-pip python3 libpq-dev locales -y && \
     locale-gen pt_BR.UTF-8 && \
     update-locale LANG=pt_BR.UTF-8
 
 ENV LANG en_US.UTF-8
 
-COPY ./requirements.txt /app/requirements.txt
+# COPY ./requirements.txt /usr/src/app/requirements.txt
+COPY . /usr/src/app/
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 RUN pip install -r ./requirements.txt
 
-COPY . /app
 
 EXPOSE 5000
 

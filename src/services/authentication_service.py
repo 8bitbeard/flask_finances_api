@@ -1,3 +1,7 @@
+"""
+Authentication Service File
+"""
+
 from werkzeug.security import check_password_hash
 from flask_jwt_extended import create_access_token, create_refresh_token
 
@@ -9,8 +13,14 @@ from src.exceptions.users_exception import UserNotFound
 
 
 class AuthenticationService:
+    """
+    Authentication Service Class
+    """
 
     def login(data):
+        """
+        Login service method
+        """
         if 'email' not in data or 'password' not in data:
             raise UserMissingParameter('Email and Password parameters must be provided!')
 
@@ -32,6 +42,9 @@ class AuthenticationService:
         raise AuthenticationBadCredentials('Email or password invalid!')
 
     def find(user_id):
+        """
+        Find user data service method
+        """
         user = User.query.filter_by(id=user_id).first()
 
         if not user:

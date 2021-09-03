@@ -1,3 +1,7 @@
+"""
+Transactions Controller File
+"""
+
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -14,6 +18,9 @@ transactions = Blueprint("transactions", __name__, url_prefix="/api/v1/transacti
 @transactions.post('/<account_id>/income')
 @jwt_required()
 def income(account_id):
+    """
+    Create income for logged in user account
+    """
     data = request.json
     user_id = get_jwt_identity()
 
@@ -27,6 +34,9 @@ def income(account_id):
 @transactions.post('/<account_id>/expense')
 @jwt_required()
 def expense(account_id):
+    """
+    Create expense for logged in user account
+    """
     data = request.json
     user_id = get_jwt_identity()
 
@@ -40,6 +50,9 @@ def expense(account_id):
 @transactions.get('/<account_id>/extract')
 @jwt_required()
 def extract(account_id):
+    """
+    Get logged in user account extract
+    """
     user_id = get_jwt_identity()
 
     transaction_schema = TransactionSchema(many=True)

@@ -1,3 +1,7 @@
+"""
+Category Model File
+"""
+
 import enum
 import uuid
 
@@ -5,11 +9,17 @@ from src.database import db
 
 
 class CategoryType(enum.Enum):
+    """
+    Category Type Enum
+    """
     E = "Entrada"
     S = "Saída"
 
 
 class Category(db.Model):
+    """
+    Category Model Class
+    """
     __tablename__='categories'
 
     id = db.Column(db.String(), primary_key=True)

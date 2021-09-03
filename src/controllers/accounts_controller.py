@@ -1,3 +1,7 @@
+"""
+Accounts Controller File
+"""
+
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -15,6 +19,9 @@ accounts = Blueprint("accounts", __name__, url_prefix="/api/v1/accounts")
 @accounts.post('/')
 @jwt_required()
 def create():
+    """
+    Create account controller method
+    """
     data = request.json
     user_id = get_jwt_identity()
 
@@ -28,6 +35,9 @@ def create():
 @accounts.get('/')
 @jwt_required()
 def index():
+    """
+    List logged user accounts controller method
+    """
     user_id = get_jwt_identity()
 
     account_schema = AccountSchema(many=True)
@@ -40,6 +50,9 @@ def index():
 @accounts.get('/<account_id>/balance')
 @jwt_required()
 def balance(account_id):
+    """
+    Get logged user account balance
+    """
     user_id = get_jwt_identity()
 
     balance_schema = BalanceSchema()

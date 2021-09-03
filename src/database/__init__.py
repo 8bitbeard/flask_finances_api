@@ -1,3 +1,7 @@
+"""
+Init Database File
+"""
+
 import locale
 
 from flask_sqlalchemy import SQLAlchemy

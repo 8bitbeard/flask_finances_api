@@ -1,3 +1,7 @@
+"""
+Transactions Service File
+"""
+
 import decimal
 
 from src.database import db
@@ -12,7 +16,13 @@ from src.exceptions.transaction_exception import TransactionValueNegativeOrZero
 
 
 class TransactionsService:
+    """
+    Transactions Servie Class
+    """
     def income(user_id, account_id, data):
+        """
+        Transaction income service method
+        """
 
         value = data['value']
         category_name = data['category']
@@ -47,6 +57,9 @@ class TransactionsService:
 
 
     def expense(user_id, account_id, data):
+        """
+        Transaction expense service method
+        """
 
         value = data['value']
         category_name = data['category']
@@ -80,6 +93,9 @@ class TransactionsService:
 
 
     def extract(user_id, account_id):
+        """
+        Transaction extract service method
+        """
 
         account = Account.query.filter_by(user_id=user_id, id=account_id).first()
 

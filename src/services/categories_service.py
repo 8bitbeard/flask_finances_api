@@ -1,14 +1,24 @@
+"""
+Categories Service File
+"""
+
 from src.database import db
 
 from src.models.categories import CategoryType, Category
 from src.models.users import User
 
-from src.exceptions.categories_exception import CategoryNotFound, CategoryNameExists, CategoryInvalidType
+from src.exceptions.categories_exception import CategoryNameExists, CategoryInvalidType
 from src.exceptions.users_exception import UserNotFound
 
 
 class CategoriesService:
+    """
+    Categories Service Class
+    """
     def create(user_id, data):
+        """
+        Create Category service method
+        """
 
         name = data['name']
         category_type = data['type']
@@ -36,6 +46,9 @@ class CategoriesService:
         return category
 
     def index(user_id):
+        """
+        List categories service method
+        """
 
         categories = Category.query.filter_by(user_id=user_id)
 

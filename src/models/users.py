@@ -1,3 +1,7 @@
+"""
+User Model File
+"""
+
 import uuid
 from datetime import datetime
 
@@ -5,6 +9,9 @@ from src.database import db
 
 
 class User(db.Model):
+    """
+    User Model Class
+    """
     __tablename__='users'
 
     id = db.Column(db.String(), primary_key=True)

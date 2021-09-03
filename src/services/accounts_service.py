@@ -1,3 +1,7 @@
+"""
+Accounts Service File
+"""
+
 import numbers
 
 from src.database import db
@@ -11,8 +15,14 @@ from src.exceptions.balance_exception import BalanceInvalid
 
 
 class AccountsService:
+    """
+    Accounts Service Class
+    """
 
     def create(user_id, data):
+        """
+        Create an account service method
+        """
         name = data['name']
         balance = data['balance']
 
@@ -37,11 +47,17 @@ class AccountsService:
         return account
 
     def index(user_id):
+        """
+        List user accounts service method
+        """
         accounts = Account.query.filter_by(user_id=user_id)
 
         return accounts
 
     def retrieve(user_id, account_id):
+        """
+        Retrieve user account service method
+        """
 
         account = Account.query.filter_by(id=account_id, user_id=user_id).first()
 

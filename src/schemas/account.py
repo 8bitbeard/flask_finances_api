@@ -1,3 +1,7 @@
+"""
+Account Schema File
+"""
+
 import locale
 
 from marshmallow import fields
@@ -8,8 +12,14 @@ from src.models.accounts import Account
 
 
 class AccountSchema(ma.SQLAlchemyAutoSchema):
+    """
+    Account Schema Class
+    """
 
     class Meta:
+        """
+        Meta Class
+        """
         model = Account
         load_instance = True
         fields = ("id", "name", "income", "expense", "balance")

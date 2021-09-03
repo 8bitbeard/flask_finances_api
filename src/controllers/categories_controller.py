@@ -1,3 +1,7 @@
+"""
+Categories Controller File
+"""
+
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -14,6 +18,9 @@ categories = Blueprint("categories", __name__, url_prefix="/api/v1/categories")
 @categories.post('/')
 @jwt_required()
 def create():
+    """
+    Create category for logged in user
+    """
     data = request.json
     user_id = get_jwt_identity()
 
@@ -27,6 +34,9 @@ def create():
 @categories.get('/')
 @jwt_required()
 def index():
+    """
+    List all logged in user categories
+    """
     user_id = get_jwt_identity()
 
     category_schema = CategorySchema(many=True)
@@ -34,5 +44,3 @@ def index():
     found_categories = CategoriesService.index(user_id)
 
     return category_schema.jsonify(found_categories), http_status_codes.HTTP_200_OK
-
-

@@ -1,3 +1,7 @@
+"""
+Authorization Controller File
+"""
+
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -13,6 +17,9 @@ auth = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
 
 @auth.post('/login')
 def create():
+    """
+    Login user controller method
+    """
     data = request.json
 
     token = AuthenticationService.login(data)
@@ -22,6 +29,9 @@ def create():
 @auth.get('/me')
 @jwt_required()
 def find():
+    """
+    Get logged in user data
+    """
     user_id = get_jwt_identity()
 
     user = AuthenticationService.find(user_id)

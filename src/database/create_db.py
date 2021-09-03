@@ -2,7 +2,6 @@
 Script to create the DB on Heroku
 """
 
-
 import os
 
 from src.database import db

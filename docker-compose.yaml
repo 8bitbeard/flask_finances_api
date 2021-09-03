@@ -12,7 +12,7 @@ services:
     networks:
       - default
     volumes:
-      - ./:/usr/src/app/
+      - .:/usr/src/app
       - ./src/database/migrations:/usr/src/app/src/database/migrations
     restart: always
 

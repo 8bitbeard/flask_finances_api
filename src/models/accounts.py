@@ -1,9 +1,16 @@
+"""
+Account Model File
+"""
+
 import uuid
 
 from src.database import db
 
 
 class Account(db.Model):
+    """
+    Account Model Class
+    """
     __tablename__='accounts'
 
     id = db.Column(db.String(), primary_key=True)

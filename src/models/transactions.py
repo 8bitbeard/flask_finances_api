@@ -1,3 +1,7 @@
+"""
+Transaction Model File
+"""
+
 import uuid
 
 from datetime import datetime
@@ -6,6 +10,9 @@ from src.database import db
 
 
 class Transaction(db.Model):
+    """
+    Transaction Model Class
+    """
     __tablename__='transactions'
 
     id = db.Column(db.String(), primary_key=True)
