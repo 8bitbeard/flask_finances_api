@@ -19,7 +19,7 @@ class AccountsService:
     Accounts Service Class
     """
 
-    def create(user_id, data):
+    def create(self, user_id, data):
         """
         Create an account service method
         """
@@ -46,7 +46,7 @@ class AccountsService:
 
         return account
 
-    def index(user_id):
+    def index(self, user_id):
         """
         List user accounts service method
         """
@@ -54,7 +54,7 @@ class AccountsService:
 
         return accounts
 
-    def retrieve(user_id, account_id):
+    def retrieve(self, user_id, account_id):
         """
         Retrieve user account service method
         """

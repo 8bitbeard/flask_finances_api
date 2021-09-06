@@ -23,7 +23,7 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///' +
                                         os.path.join(basedir, 'flask_finances_api_development.db'))
-    JWT_SECRET_TOKEN=os.environ.get('JWT_SECRET_KEY')
+    JWT_SECRET_TOKEN = os.environ.get('JWT_SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
@@ -35,7 +35,7 @@ class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL_TST', 'sqlite:///' +
                                         os.path.join(basedir, 'flask_finances_api_testing.db'))
-    JWT_SECRET_TOKEN=os.environ.get('JWT_SECRET_KEY')
+    JWT_SECRET_TOKEN = os.environ.get('JWT_SECRET_KEY')
     PRESERVE_CONTEXT_ON_EXCEPTION = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -50,9 +50,9 @@ class ProductionConfig(Config):
 
 
 config_by_name = {
-    "development":DevelopmentConfig,
-    "testing":TestingConfig,
-    "production":ProductionConfig
+    "development": DevelopmentConfig,
+    "testing": TestingConfig,
+    "production": ProductionConfig
 }
 
 key = Config.SECRET_KEY

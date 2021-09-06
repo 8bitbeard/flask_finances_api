@@ -24,9 +24,10 @@ def create():
     data = request.json
     user_id = get_jwt_identity()
 
+    categories_service = CategoriesService()
     category_schema = CategorySchema()
 
-    found_category = CategoriesService.create(user_id, data)
+    found_category = categories_service.create(user_id, data)
 
     return category_schema.jsonify(found_category), http_status_codes.HTTP_201_CREATED
 
@@ -39,8 +40,9 @@ def index():
     """
     user_id = get_jwt_identity()
 
+    categories_service = CategoriesService()
     category_schema = CategorySchema(many=True)
 
-    found_categories = CategoriesService.index(user_id)
+    found_categories = categories_service.index(user_id)
 
     return category_schema.jsonify(found_categories), http_status_codes.HTTP_200_OK

@@ -22,32 +22,36 @@ class TestCreate:
         """
         Test if create method raises an CategoryInvalidType when passing a invalid type on type parameter
         """
+        categories_service = CategoriesService()
         with pytest.raises(CategoryInvalidType):
-            CategoriesService.create('user_id', {'name': 'CategoryName', 'type': 'invalid'})
+            categories_service.create('user_id', {'name': 'CategoryName', 'type': 'invalid'})
 
     def test_create_error_user_not_found(self, mock_get_sqlalchemy):
         """
         Test if create method raises an UserNotFound when the user_id do not correspond to any user
         """
+        categories_service = CategoriesService()
         mock_get_sqlalchemy.filter_by.return_value.first.return_value = None
         with pytest.raises(UserNotFound):
-            CategoriesService.create('user_id', {'name': 'CategoryName', 'type': 'S'})
+            categories_service.create('user_id', {'name': 'CategoryName', 'type': 'S'})
 
     def test_create_error_category_name_already_exists(self, mock_get_sqlalchemy, mock_user_object):
         """
         Test if create method raises an CategoryNameExists when informing a category name already taken
         """
+        categories_service = CategoriesService()
         mock_get_sqlalchemy.filter_by.return_value.first.side_effect = [mock_user_object, True]
         with pytest.raises(CategoryNameExists):
-            CategoriesService.create('user_id', {'name': 'CategoryName', 'type': 'S'})
+            categories_service.create('user_id', {'name': 'CategoryName', 'type': 'S'})
 
     def test_create_categories_service_method( self, mock_get_sqlalchemy, mock_user_object, mock_s_category_object, mocker):
         """
         Test if create method creates a category with success
         """
+        categories_service = CategoriesService()
         mock_get_sqlalchemy.filter_by.return_value.first.side_effect = [mock_user_object, None]
         mocker.patch("src.services.users_service.db.session").return_value = mocker.Mock()
-        category = CategoriesService.create(mock_user_object.id, {'name': mock_s_category_object.name, 'type': mock_s_category_object.type.name})
+        category = categories_service.create(mock_user_object.id, {'name': mock_s_category_object.name, 'type': mock_s_category_object.type.name})
         assert category.id is not None
         assert category.user_id == mock_user_object.id
         assert category.name == mock_s_category_object.name
@@ -63,8 +67,9 @@ class TestIndex:
         """
         Test if index method returns a list of existing categories
         """
+        categories_service = CategoriesService()
         mock_get_sqlalchemy.filter_by.return_value = [mock_s_category_object]
-        categories = CategoriesService.index(mock_user_object.id)
+        categories = categories_service.index(mock_user_object.id)
         assert categories[0].id == mock_s_category_object.id
         assert categories[0].user_id == mock_s_category_object.user_id
         assert categories[0].name == mock_s_category_object.name

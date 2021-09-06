@@ -20,7 +20,7 @@ class Category(db.Model):
     """
     Category Model Class
     """
-    __tablename__='categories'
+    __tablename__ = 'categories'
 
     id = db.Column(db.String(), primary_key=True)
     name = db.Column(db.String(80), nullable=False)

@@ -24,9 +24,10 @@ def income(account_id):
     data = request.json
     user_id = get_jwt_identity()
 
+    transactions_service = TransactionsService()
     transaction_schema = TransactionSchema()
 
-    found_transaction = TransactionsService.income(user_id, account_id, data)
+    found_transaction = transactions_service.income(user_id, account_id, data)
 
     return transaction_schema.jsonify(found_transaction), http_status_codes.HTTP_201_CREATED
 
@@ -40,9 +41,10 @@ def expense(account_id):
     data = request.json
     user_id = get_jwt_identity()
 
+    transactions_service = TransactionsService()
     transaction_schema = TransactionSchema()
 
-    found_transaction = TransactionsService.expense(user_id, account_id, data)
+    found_transaction = transactions_service.expense(user_id, account_id, data)
 
     return transaction_schema.jsonify(found_transaction), http_status_codes.HTTP_201_CREATED
 
@@ -55,8 +57,9 @@ def extract(account_id):
     """
     user_id = get_jwt_identity()
 
+    transactions_service = TransactionsService()
     transaction_schema = TransactionSchema(many=True)
 
-    found_transactions = TransactionsService.extract(user_id, account_id)
+    found_transactions = transactions_service.extract(user_id, account_id)
 
     return transaction_schema.jsonify(found_transactions), http_status_codes.HTTP_200_OK

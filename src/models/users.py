@@ -12,7 +12,7 @@ class User(db.Model):
     """
     User Model Class
     """
-    __tablename__='users'
+    __tablename__ = 'users'
 
     id = db.Column(db.String(), primary_key=True)
     name = db.Column(db.String(80), nullable=False)

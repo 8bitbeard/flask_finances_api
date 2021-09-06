@@ -11,7 +11,7 @@ class Account(db.Model):
     """
     Account Model Class
     """
-    __tablename__='accounts'
+    __tablename__ = 'accounts'
 
     id = db.Column(db.String(), primary_key=True)
     name = db.Column(db.String(80), nullable=False)

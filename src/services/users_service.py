@@ -19,7 +19,7 @@ class UsersService:
     Users Service Class
     """
 
-    def create(data):
+    def create(self, data):
         """
         Usee create service method
         """
@@ -53,7 +53,7 @@ class UsersService:
 
         return user
 
-    def index():
+    def index(self):
         """
         User list service method
         """

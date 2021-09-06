@@ -13,7 +13,7 @@ class Transaction(db.Model):
     """
     Transaction Model Class
     """
-    __tablename__='transactions'
+    __tablename__ = 'transactions'
 
     id = db.Column(db.String(), primary_key=True)
     account_id = db.Column(db.String(), db.ForeignKey('accounts.id'), nullable=False)

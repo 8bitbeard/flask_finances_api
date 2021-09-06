@@ -7,7 +7,7 @@ from src.exceptions.base_exception import APIError
 
 class IncorrectCategory(APIError):
     """
-    Inorrect Category Exception
+    Incorrect Category Exception
     """
     status_code = 400
     code = "INCORRECT_CATEGORY"

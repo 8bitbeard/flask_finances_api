@@ -40,7 +40,7 @@ def create_app(config_name='development'):
     app.config['JSON_SORT_KEYS'] = False
 
     app.app_context().push()
-    db.app=app
+    db.app = app
     db.init_app(app)
     migrate.init_app(app, db, directory=MIGRATION_DIR)
     ma.init_app(app)
@@ -62,7 +62,7 @@ def create_app(config_name='development'):
     @app.errorhandler(http_status_codes.HTTP_500_INTERNAL_SERVER_ERROR)
     def handle_500(exp):
         return jsonify({
-            'error': 'Something went very very VERYY bad! We are working on it!!!'
+            'error': 'Something went very very VERY bad! We are working on it!!!'
         }), http_status_codes.HTTP_500_INTERNAL_SERVER_ERROR
 
     @app.errorhandler(APIError)

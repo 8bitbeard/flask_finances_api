@@ -17,7 +17,7 @@ class AuthenticationService:
     Authentication Service Class
     """
 
-    def login(data):
+    def login(self, data):
         """
         Login service method
         """
@@ -41,7 +41,7 @@ class AuthenticationService:
                 }
         raise AuthenticationBadCredentials('Email or password invalid!')
 
-    def find(user_id):
+    def find(self, user_id):
         """
         Find user data service method
         """

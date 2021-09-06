@@ -21,11 +21,10 @@ def create():
     """
     data = request.json
 
-    print(data)
-
+    users_service = UsersService()
     user_schema = UserSchema()
 
-    found_user = UsersService.create(data)
+    found_user = users_service.create(data)
 
     return user_schema.jsonify(found_user), http_status_codes.HTTP_201_CREATED
 
@@ -35,8 +34,9 @@ def index():
     """
     List all created users
     """
+    users_service = UsersService()
     user_schema = UserSchema(many=True)
 
-    found_users = UsersService.index()
+    found_users = users_service.index()
 
     return user_schema.jsonify(found_users), http_status_codes.HTTP_200_OK

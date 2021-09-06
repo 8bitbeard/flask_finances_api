@@ -23,42 +23,47 @@ class TestIncome:
         """
         Test if income method raises an TransactionValueNegativeOrZero exception when passing a negative value
         """
+        transactions_service = TransactionsService()
         with pytest.raises(TransactionValueNegativeOrZero):
-            TransactionsService.income('user_id', 'account_id', {'value': -1, 'category': 'Category'})
+            transactions_service.income('user_id', 'account_id', {'value': -1, 'category': 'Category'})
 
     def test_income_error_category_not_fount(self, mock_get_sqlalchemy):
         """
         Test if income method raises an CategoryNotFound exception when no category is found
         """
+        transactions_service = TransactionsService()
         mock_get_sqlalchemy.filter_by.return_value.first.return_value = None
         with pytest.raises(CategoryNotFound):
-            TransactionsService.income('user_id', 'account_id', {'value': 1, 'category': 'Category'})
+            transactions_service.income('user_id', 'account_id', {'value': 1, 'category': 'Category'})
 
     def test_income_error_account_not_found(self, mock_get_sqlalchemy, mock_e_category_object):
         """
         Test if income method raises an AccountNotFound exception when no account is found
         """
+        transactions_service = TransactionsService()
         mock_get_sqlalchemy.filter_by.return_value.first.side_effect = [mock_e_category_object, None]
         with pytest.raises(AccountNotFound):
-            TransactionsService.income('user_id', 'account_id', {'value': 1, 'category': 'Category'})
+            transactions_service.income('user_id', 'account_id', {'value': 1, 'category': 'Category'})
 
     def test_income_error_account_incorrect_category(self, mock_get_sqlalchemy, mock_s_category_object,
                                                      mock_user_object):
         """
         Test if income method raises an IncorrectCategory exception when an incorrect category is informed
         """
+        transactions_service = TransactionsService()
         mock_get_sqlalchemy.filter_by.return_value.first.side_effect = [mock_s_category_object, mock_user_object]
         with pytest.raises(IncorrectCategory):
-            TransactionsService.income('user_id', 'account_id', {'value': 1, 'category': 'Category'})
+            transactions_service.income('user_id', 'account_id', {'value': 1, 'category': 'Category'})
 
     def test_income_transactions_service_method(self, mock_get_sqlalchemy, mock_user_object, mock_account_object,
                                                 mock_e_category_object, mock_transaction_object, mocker):
         """
         Test if income method creates a income transaction successfully
         """
+        transactions_service = TransactionsService()
         mock_get_sqlalchemy.filter_by.return_value.first.side_effect = [mock_e_category_object, mock_account_object]
         mocker.patch("src.services.users_service.db.session").return_value = mocker.Mock()
-        transaction = TransactionsService.income(mock_user_object.id, mock_account_object.id,
+        transaction = transactions_service.income(mock_user_object.id, mock_account_object.id,
                                                  {'value': mock_transaction_object.value,
                                                   'category': mock_e_category_object.name})
 
@@ -78,42 +83,47 @@ class TestExpense:
         """
         Test if expense method raises an TransactionValueNegativeOrZero exception when passing a negative value
         """
+        transactions_service = TransactionsService()
         with pytest.raises(TransactionValueNegativeOrZero):
-            TransactionsService.expense('user_id', 'account_id', {'value': -1, 'category': 'Category'})
+            transactions_service.expense('user_id', 'account_id', {'value': -1, 'category': 'Category'})
 
     def test_expense_error_category_not_fount(self, mock_get_sqlalchemy):
         """
         Test if expense method raises an CategoryNotFound exception when no category is found
         """
+        transactions_service = TransactionsService()
         mock_get_sqlalchemy.filter_by.return_value.first.return_value = None
         with pytest.raises(CategoryNotFound):
-            TransactionsService.expense('user_id', 'account_id', {'value': 1, 'category': 'Category'})
+            transactions_service.expense('user_id', 'account_id', {'value': 1, 'category': 'Category'})
 
     def test_expense_error_account_not_found(self, mock_get_sqlalchemy, mock_s_category_object):
         """
         Test if expense method raises an AccountNotFound exception when no account is found
         """
+        transactions_service = TransactionsService()
         mock_get_sqlalchemy.filter_by.return_value.first.side_effect = [mock_s_category_object, None]
         with pytest.raises(AccountNotFound):
-            TransactionsService.expense('user_id', 'account_id', {'value': 1, 'category': 'Category'})
+            transactions_service.expense('user_id', 'account_id', {'value': 1, 'category': 'Category'})
 
     def test_expense_error_account_incorrect_category(self, mock_get_sqlalchemy, mock_e_category_object,
                                                       mock_user_object):
         """
         Test if expense method raises an IncorrectCategory exception when an incorrect category is informed
         """
+        transactions_service = TransactionsService()
         mock_get_sqlalchemy.filter_by.return_value.first.side_effect = [mock_e_category_object, mock_user_object]
         with pytest.raises(IncorrectCategory):
-            TransactionsService.expense('user_id', 'account_id', {'value': 1, 'category': 'Category'})
+            transactions_service.expense('user_id', 'account_id', {'value': 1, 'category': 'Category'})
 
     def test_expense_transactions_service_method(self, mock_get_sqlalchemy, mock_account_object, mock_s_category_object,
-                                                mocker):
+                                                 mocker):
         """
         Test if expense method creates a income transaction successfully
         """
+        transactions_service = TransactionsService()
         mock_get_sqlalchemy.filter_by.return_value.first.side_effect = [mock_s_category_object, mock_account_object]
         mocker.patch("src.services.users_service.db.session").return_value = mocker.Mock()
-        transaction = TransactionsService.expense('user_id', 'account_id', {'value': 1, 'category': 'Category'})
+        transaction = transactions_service.expense('user_id', 'account_id', {'value': 1, 'category': 'Category'})
 
         assert transaction.id is not None
         assert transaction.account_id is not None
@@ -131,19 +141,21 @@ class TestExtract:
         """
         Test if extract method raises an AccountNotFound exception when no account is found
         """
+        transactions_service = TransactionsService()
         mock_get_sqlalchemy.filter_by.return_value.first.return_value = None
         with pytest.raises(AccountNotFound):
-            TransactionsService.extract('user_id', 'account_id')
+            transactions_service.extract('user_id', 'account_id')
 
     def test_extract_transactions_service_method(self, mock_get_sqlalchemy, mock_account_object, mock_transaction_object,
-                                                mocker):
+                                                 mocker):
         """
         Test if extract method returns the transactions extract of a given account
         """
+        transactions_service = TransactionsService()
         mocked_first = mocker.Mock()
         mocked_first.first = mocker.Mock(return_value = mock_account_object)
         mock_get_sqlalchemy.filter_by.side_effect = [mocked_first, [mock_transaction_object]]
-        extract = TransactionsService.extract('user_id', 'account_id')
+        extract = transactions_service.extract('user_id', 'account_id')
         assert isinstance(extract, list)
         assert extract[0].id == mock_transaction_object.id
         assert extract[0].account_id == mock_transaction_object.account_id

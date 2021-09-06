@@ -22,9 +22,12 @@ def create():
     """
     data = request.json
 
-    token = AuthenticationService.login(data)
+    authentication_service = AuthenticationService()
+
+    token = authentication_service.login(data)
 
     return jsonify(token), http_status_codes.HTTP_201_CREATED
+
 
 @auth.get('/me')
 @jwt_required()
@@ -34,7 +37,9 @@ def find():
     """
     user_id = get_jwt_identity()
 
-    user = AuthenticationService.find(user_id)
+    authentication_service = AuthenticationService()
+
+    user = authentication_service.find(user_id)
 
     user_schema = UserSchema()
 

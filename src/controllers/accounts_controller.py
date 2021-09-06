@@ -25,9 +25,10 @@ def create():
     data = request.json
     user_id = get_jwt_identity()
 
+    account_service = AccountsService()
     account_schema = AccountSchema()
 
-    created_account = AccountsService.create(user_id, data)
+    created_account = account_service.create(user_id, data)
 
     return account_schema.jsonify(created_account), http_status_codes.HTTP_201_CREATED
 
@@ -40,9 +41,10 @@ def index():
     """
     user_id = get_jwt_identity()
 
+    account_service = AccountsService()
     account_schema = AccountSchema(many=True)
 
-    found_accounts = AccountsService.index(user_id)
+    found_accounts = account_service.index(user_id)
 
     return account_schema.jsonify(found_accounts), http_status_codes.HTTP_200_OK
 
@@ -55,8 +57,9 @@ def balance(account_id):
     """
     user_id = get_jwt_identity()
 
+    account_service = AccountsService()
     balance_schema = BalanceSchema()
 
-    found_account = AccountsService.retrieve(user_id, account_id)
+    found_account = account_service.retrieve(user_id, account_id)
 
     return balance_schema.jsonify(found_account), http_status_codes.HTTP_200_OK

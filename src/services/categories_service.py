@@ -15,7 +15,7 @@ class CategoriesService:
     """
     Categories Service Class
     """
-    def create(user_id, data):
+    def create(self, user_id, data):
         """
         Create Category service method
         """
@@ -45,7 +45,7 @@ class CategoriesService:
 
         return category
 
-    def index(user_id):
+    def index(self, user_id):
         """
         List categories service method
         """

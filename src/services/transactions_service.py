@@ -19,7 +19,7 @@ class TransactionsService:
     """
     Transactions Servie Class
     """
-    def income(user_id, account_id, data):
+    def income(self, user_id, account_id, data):
         """
         Transaction income service method
         """
@@ -54,9 +54,7 @@ class TransactionsService:
 
         return transaction
 
-
-
-    def expense(user_id, account_id, data):
+    def expense(self, user_id, account_id, data):
         """
         Transaction expense service method
         """
@@ -91,8 +89,7 @@ class TransactionsService:
 
         return transaction
 
-
-    def extract(user_id, account_id):
+    def extract(self, user_id, account_id):
         """
         Transaction extract service method
         """
